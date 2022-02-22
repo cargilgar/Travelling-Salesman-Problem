@@ -1,7 +1,7 @@
 import math
 import os
 import numpy as np
-import pandas as pd
+import csv
 
 
 class Matrix:
@@ -18,38 +18,30 @@ class Matrix:
         if not os.path.isfile(path_file):
             raise "file does not exist"
 
-        dataframe = pd.read_csv(path_file, header=None)
-
-        if len(dataframe) == 0:
-            raise "Error loading the dataframe"
-
-        return dataframe
-
-    @classmethod
-    def get_coordinates_list(cls, dataframe=None, path_file=''):
-        if dataframe is None and path_file:
-            dataframe = cls.load_file(path_file=path_file)
-
         cities_coordinates = []
+        with open(path_file, 'r') as file:
+            reader = csv.reader(file, quoting=csv.QUOTE_NONNUMERIC)
 
-        x_list = dataframe[0].to_list()
-        y_list = dataframe[1].to_list()
+            for row in reader:
+                cities_coordinates.append(row)
 
-        for i in range(dataframe.shape[0]):
-            city = [x_list[i], y_list[i]]
-            cities_coordinates.append(city)
+        if len(cities_coordinates) == 0:
+            raise "Error loading the csv file"
 
         return cities_coordinates
 
     @classmethod
-    def generate_matrix(cls, dataframe=None, path_file=''):
+    def get_coordinates_list(cls, path_file):
+        return cls.load_file(path_file)
+
+    @classmethod
+    def generate_matrix(cls, coord_list=None, path_file=''):
         """
         Create the distance matrix given a list of coordinates of each city
         """
-        if dataframe is None and path_file:
-            dataframe = cls.load_file(path_file=path_file)
+        if coord_list is None and path_file:
+            coord_list = cls.load_file(path_file=path_file)
 
-        coord_list = cls.get_coordinates_list(dataframe=dataframe)
         num_of_cities = len(coord_list)
         matrix = np.zeros(shape=(num_of_cities, num_of_cities))
 

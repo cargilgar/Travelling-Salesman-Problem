@@ -13,9 +13,9 @@ class Algorithm:
     __metaclass__ = ABCMeta
 
     def __init__(self, path, stop, n_op):
-        self.matrix = matrix.Matrix.generate_matrix(path_file=path)
-        self.nodes = len(self.matrix[0])
         self.coord = matrix.Matrix.get_coordinates_list(path_file=path)
+        self.matrix = matrix.Matrix.generate_matrix(self.coord)
+        self.nodes = len(self.matrix[0])
         self.stop = stop
         self.n_op = n_ops.get_operator_by_name(n_op)
 
