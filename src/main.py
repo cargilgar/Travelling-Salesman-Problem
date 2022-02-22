@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import sys
 
 from genetic_algorithm import GeneticAlgorithm
 from simulated_annealing import SimulatedAnnealing
@@ -14,7 +15,11 @@ def plot_convergence(costs_list, title, x_label='', y_label=''):
 
 
 if __name__ == "__main__":
-    file = 'TSP_Matrix.csv'
+    MIN_VERSION = (3, 9)
+    if not sys.version_info >= MIN_VERSION:
+        sys.exit(f'Minimum Python {MIN_VERSION} is required. Your current version is: {sys.version}')
+
+    file = '../TSP_Matrix.csv'
 
     # Testing Simulated Annealing with inversion operator
     SA = SimulatedAnnealing(file, operator='inversion', t_max=10, t_min=0.0005, alpha=0.995)
