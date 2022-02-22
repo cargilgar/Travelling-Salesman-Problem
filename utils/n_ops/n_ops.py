@@ -49,20 +49,6 @@ class Operator:
 
         return ret
 
-    @classmethod
-    # Initial solution
-    def generate_init_candidate(cls, items, random_init=True):
-        init_solution = []
-        if random_init:
-            init_solution = random.sample(range(0, items), items)
-        # TODO
-        # else:
-        # greedy start
-
-        assert len(set(init_solution)) == items, 'The randomly generated initial solution does not contain all ' \
-                                                 'the {} items'.format(items)
-        return init_solution
-
 
 class RandomSwap(Operator):
     def __init__(self):
