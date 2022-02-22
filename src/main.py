@@ -17,7 +17,7 @@ def plot_convergence(costs_list, title, x_label='', y_label=''):
 if __name__ == "__main__":
     MIN_VERSION = (3, 9)
     if not sys.version_info >= MIN_VERSION:
-        sys.exit(f'Minimum Python {MIN_VERSION} is required. Your current version is: {sys.version}')
+        sys.exit(f'Minimum Python {MIN_VERSION[0]}.{MIN_VERSION[1]} is required. Your current version is: {sys.version}')
 
     file = '../TSP_Matrix.csv'
 
