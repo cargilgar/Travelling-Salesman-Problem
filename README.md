@@ -26,10 +26,10 @@ In order to achieve this, we need to take care of the following steps:
 
 
 ## Algorithms
-There are different algorithms to choose from for this problem:
-* Simulated Annealing
-* Tabu Search
-* Genetic Algorithm
+Algorithms for this problem:
+* [Simulated Annealing](#Simulated-Annealing) (SA)
+* [Tabu Search](#Tabu-Search) (TS)
+* [Genetic Algorithm](#Genetic-Algorithm) (GA)
 
 ## Neighbourhood operators
 Similarly, the following neighbourhood operators are available to choose from:
@@ -39,7 +39,7 @@ Similarly, the following neighbourhood operators are available to choose from:
 * 2-opt (`key='two_opt'`)
 
 
-# Simulated annealing
+# Simulated Annealing
 Simulated annealing is an S-metaheuristic algorithm that...
 
 
@@ -47,7 +47,7 @@ Simulated annealing is an S-metaheuristic algorithm that...
 Tabu Search is an S-metaheuristic algorithm that...
 
 
-# Genetic Algorithm (GA) for Traveling Salesman Problem (TSP)
+# Genetic Algorithm
 
 ## Description
 A genetic algorithm is a P-metaheuristic evolutionary algorithm (EA) that mimics the concept of the survival of the fittest, being the individuals with the most promising genetic properties, being able to thrive and survive among other individuals.
