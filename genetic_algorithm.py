@@ -154,8 +154,7 @@ class GeneticAlgorithm(Algorithm):
         if animation:
             plt.rcParams["figure.figsize"] = (10, 8)
 
-        it = 0
-        count = 0
+        count, its = 0, 0
         while count < self.stop:
             self.selection()
             self.crossover()
@@ -169,14 +168,14 @@ class GeneticAlgorithm(Algorithm):
                 if animation:
                     plt.cla()
                     self.plot_path(self.coord, best_chromosome.tour, f'Genetic Algorithm using {self.n_op.name}',
-                                   f'Iteration: {it} \nCost: {round(best_chromosome.cost)}')
+                                   f'Iteration: {its} \nCost: {round(best_chromosome.cost)}')
                     plt.pause(0.05)
 
                 count = 0
             else:
                 count += 1
 
-            it += 1
+            its += 1
 
             # Restructure population if necessary for next reproduction stage
             self.remove_duplicates()
@@ -187,4 +186,4 @@ class GeneticAlgorithm(Algorithm):
             plt.show()
 
         # return best_chromosome
-        return it, best_costs, best_chromosome.tour
+        return its, best_costs, best_chromosome.tour
