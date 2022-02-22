@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-
-
 class Chromosome:
     """
     This class represents the chromosome element for GA. It is adapted to TSP so that the encoding/decoding process is
@@ -64,32 +61,3 @@ class Chromosome:
             count += 1
 
         return res
-
-    def plot(self, coord, title):
-        """
-        Plot the tour of the chromosome.
-        """
-        x_coord, y_coord = [], []
-
-        for item in coord:
-            x_coord.append(item[0])
-            y_coord.append(item[1])
-
-        path_x, path_y = [], []
-        for val in self.tour:
-            path_x.append(x_coord[val])
-            path_y.append(y_coord[val])
-
-        plt.xlim(0, 10)
-        plt.ylim(0, 10)
-        plt.scatter(path_x, path_y, color='black')
-
-        plt.suptitle(title, fontsize=16)
-
-        # adding the last city to come back to the starting point
-        path_x.append(path_x[0])
-        path_y.append(path_y[0])
-
-        plt.plot(path_x, path_y, color='green')
-
-        plt.show()

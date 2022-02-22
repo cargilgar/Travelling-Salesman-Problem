@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+import matplotlib.pyplot as plt
 import random
 
 from utils.matrix import matrix
@@ -37,3 +38,43 @@ class Algorithm:
         assert len(set(init_solution)) == items, 'The randomly generated initial solution does not contain all ' \
                                                  'the {} items'.format(items)
         return init_solution
+
+    def evaluate_solution(self, tour):
+        cost = 0
+        for i in range(len(tour) - 1):
+            cost += self.matrix[tour[i]][tour[i + 1]]
+
+        # adding the cost from last city in the route to the starting city
+        cost += self.matrix[tour[-1]][tour[0]]
+
+        return cost
+
+    @staticmethod
+    def plot_path(coord, tour, title, subtitle):
+        """
+        Plot the given path of nodes to visualise the result.
+        """
+        x_coord, y_coord = [], []
+
+        for item in coord:
+            x_coord.append(item[0])
+            y_coord.append(item[1])
+
+        path_x, path_y = [], []
+
+        for val in tour:
+            path_x.append(x_coord[val])
+            path_y.append(y_coord[val])
+
+        plt.xlim(0, 10)
+        plt.ylim(0, 10)
+        plt.scatter(path_x, path_y, color='black')
+
+        plt.suptitle(title, fontsize=16)
+        plt.title(subtitle, fontsize=14)
+
+        # adding the last city to come back to the starting point
+        path_x.append(path_x[0])
+        path_y.append(path_y[0])
+
+        plt.plot(path_x, path_y, color='green')
