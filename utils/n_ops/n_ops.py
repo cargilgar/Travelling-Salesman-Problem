@@ -12,9 +12,10 @@ def get_operator_by_name(op_name):
     return ops_dict.get(op_name)
 
 
-# TODO: Lin-Kernighan, 3-opt, position-based neighbourhood (insertion)
-
 class Operator:
+    """
+    Abstract class to be inherited by the different operators (random_swap, two-opt, inversion...)
+    """
     __metaclass__ = ABCMeta
 
     @abstractmethod
