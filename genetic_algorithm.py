@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 from chromosome import Chromosome
 from algorithm import Algorithm
 
+# TODO: consider to dynamically update GA parameters based on learning through control variables
+
 
 class GeneticAlgorithm(Algorithm):
     def __init__(self, file, stop=50, neighbourhood_op="rand_swap_adj", elitism=0.8, mutation_rate=1, crossover_rate=1,
-                 population_rate=20, plot=True):
+                 population_rate=20):
         super().__init__(file, stop, neighbourhood_op)
         self.elitism_rate = elitism
         self.mutation_rate = mutation_rate
@@ -15,7 +17,6 @@ class GeneticAlgorithm(Algorithm):
         self.population = []
         self.population_size = self.nodes * population_rate
         self.create_population(self.population_size)  # Initial population of P chromosomes (generation 0).
-        self.plot = plot
 
     def create_population(self, size):
         for _ in range(size):
@@ -145,13 +146,17 @@ class GeneticAlgorithm(Algorithm):
         # End mutation by recalculating the fitness scores and sorting the population
         self.fitness_function()
 
-    def run(self):
+    def run(self, animation=False):
         print(f'\nRunning Genetic Algorithm. Stopping if no improvement after {self.stop} iterations')
         best_chromosome = self.population[0]
         best_costs = []
 
+        if animation:
+            plt.rcParams["figure.figsize"] = (10, 8)
+
         it = 0
-        while it < self.stop:
+        count = 0
+        while count < self.stop:
             self.selection()
             self.crossover()
             self.mutation()
@@ -159,22 +164,27 @@ class GeneticAlgorithm(Algorithm):
             if self.population[0].cost < best_chromosome.cost:
                 best_chromosome = self.population[0]
                 print(f'Better chromosome found. Cost: {round(best_chromosome.cost)}')
-
                 best_costs.append(best_chromosome.cost)
-                it = 0
+
+                if animation:
+                    plt.cla()
+                    self.plot_path(self.coord, best_chromosome.tour, f'Genetic Algorithm using {self.n_op.name}',
+                                   f'Iteration: {it} \nCost: {round(best_chromosome.cost)}')
+                    plt.pause(0.05)
+
+                count = 0
             else:
-                it += 1
+                count += 1
+
+            it += 1
 
             # Restructure population if necessary for next reproduction stage
             self.remove_duplicates()
             self.fill_missing_population()
 
-        # Plot the best generated chromosome
-        if self.plot:
-            best_chromosome.animation(self.coord, f'best result. cost: {round(best_chromosome.cost)}')
-            plt.suptitle("GA tuned parameters", fontsize=16)
-            plt.plot(best_costs)
+        if animation:
+            plt.tight_layout()
             plt.show()
 
         # return best_chromosome
-        return best_costs
+        return it, best_costs, best_chromosome.tour
