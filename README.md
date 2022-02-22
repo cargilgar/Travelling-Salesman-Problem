@@ -27,10 +27,9 @@ In order to achieve this, we need to take care of the following steps:
 
 ## Algorithms
 There are different algorithms to choose from for this problem:
-* Simple Hill Climbing
-* Steepest Ascent/Descent Hill Climbing
 * Simulated Annealing
 * Tabu Search
+* Genetic Algorithm
 
 ## Neighbourhood operators
 Similarly, the following neighbourhood operators are available to choose from:
