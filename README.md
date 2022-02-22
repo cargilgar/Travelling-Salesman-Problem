@@ -1,10 +1,15 @@
 # Travelling Salesman Problem Example
 
+The Travelling Salesman Problem (TSP) is an **NP-hard** (non-deterministic polynomial) problem in combinatorial optimisation.
+
+Its growing complexity in real-world applications makes it unfeasible to compute an exact solution in a reasonable amount of time (even for super computers).
+
+For this reason, three approximate algorithms are presented in this repository to offer approximate and yet robust solutions to this problem in a reasonable amount of computational time nad resources.
+
 
 ## Problem Description
-The Travelling Salesman Problem (TSP) is an **NP-hard** (non-deterministic polynomial) problem in combinatorial optimisation. 
 
-It is described as follows: given a number of cities *n* and the distance matrix between each pair of cities *d*, the goal is to find the shortest route that visits each city just once and returns to the starting city.
+Given a number of cities *n* and the distance matrix between each pair of cities *d*, the goal is to find the shortest route that visits each city just once and returns to the starting city.
 
 In this example, we attempt to solve this problem by employing different pathfinding algorithms that rely on heuristic search in order to find an optimum path.
 
@@ -35,12 +40,18 @@ Similarly, the following neighbourhood operators are available to choose from:
 * 2-opt (`key='two_opt'`)
 
 
+# Simulated annealing
+Simulated annealing is an S-metaheuristic algorithm that...
+
+
+# Tabu Search
+Tabu Search is an S-metaheuristic algorithm that...
 
 
 # Genetic Algorithm (GA) for Traveling Salesman Problem (TSP)
 
 ## Description
-A genetic algorithm is an evolutionary algorithm (EA) that mimics the concept of the survival of the fittest, being the individuals with the most promising genetic properties, being able to thrive and survive among other individuals.
+A genetic algorithm is a P-metaheuristic evolutionary algorithm (EA) that mimics the concept of the survival of the fittest, being the individuals with the most promising genetic properties, being able to thrive and survive among other individuals.
 
 The advantages of GA's are that they can simulate many points in any given parameter space. At each new generation, the algorithm explores different areas of the parameter space guiding the search to the fittest regions or those with improved performance. This then increases the likelihood of finding the optimal global solution.
 
