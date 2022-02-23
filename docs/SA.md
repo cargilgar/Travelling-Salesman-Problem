@@ -30,9 +30,7 @@ The resulting probability can be compared to a uniform random number from 0 to 1
 In other words, when *T* gets close to 0, only good moves will be accepted.
 
 ## Cooling schedule or cooling down factor (alpha)
-The cooling schedule allows adequate iterations at each temperature before decreasing the temperature.
-
-The cooling schedule may be of different forms. One very common is the geometric: 
+The cooling schedule allows adequate iterations at each temperature before decreasing the temperature. The cooling schedule may be of different forms. One very common is the geometric: 
 
 <p align="center">
   <img src="http://www.sciweavers.org/tex2img.php?eq=T%20%3D%20T%20%2A%20alpha&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" />
