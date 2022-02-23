@@ -22,9 +22,8 @@ The bad moves are accepted based on the probability that follows the [Boltzmann 
 which is a function of change in cost divided by the current temperature:
 
 <p align="center">
-  <img src="http://www.sciweavers.org/tex2img.php?eq=P%5Cbig%28%E2%88%86E%2CT%5Cbig%29%20%3D%20exp%28%5Cfrac%7B%20%5Cpartial%20E%7D%7BT%7D%29%20%3E%20R&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" />
+  <img src="http://www.sciweavers.org/tex2img.php?eq=P%28%20%5CDelta%20E%2C%20T%29%20%3D%20exp%28%20%5Cpartial%20E%2FT%29&bc=White&fc=Black&im=jpg&fs=12&ff=arev&edit=0" />
 </p>
-
 
 The resulting probability can be compared to a uniform random number from 0 to 1. Insofar as *T* decreases, so will *P*, and it will be more and more difficult to get a *P* higher than *R*. 
 In other words, when *T* gets close to 0, only good moves will be accepted.
