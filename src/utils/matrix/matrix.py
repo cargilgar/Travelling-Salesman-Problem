@@ -1,17 +1,20 @@
+import csv
 import math
 import os
 import numpy as np
-import csv
 
 
 class Matrix:
     """
-    Obtaining distance matrix from file.
-
-    Note: It would be memory and resource efficient to compute and store (N+1)⋅N/2 elements instead of a matrix of N2.
-    This would be possible due to the properties of the symmetric matrix. But let's keep it simple by computing the
-    whole matrix.
+    This class obtains a distance matrix from a csv file and stores the coordinates of each node.
     """
+    def __init__(self, path_file=''):
+        if len(path_file) == 0:
+            self.coord_list = self.generate_random_search_space()
+        else:
+            self.coord_list = self.load_file(path_file)
+
+        self.matrix = self.generate_matrix()
 
     @classmethod
     def load_file(cls, path_file):
@@ -30,25 +33,20 @@ class Matrix:
 
         return cities_coordinates
 
-    @classmethod
-    def get_coordinates_list(cls, path_file):
-        return cls.load_file(path_file)
-
-    @classmethod
-    def generate_matrix(cls, coord_list=None, path_file=''):
+    def generate_matrix(self):
         """
-        Create the distance matrix given a list of coordinates of each city
-        """
-        if coord_list is None and path_file:
-            coord_list = cls.load_file(path_file=path_file)
+        Create the distance matrix given a list of coordinates of each city.
 
-        num_of_cities = len(coord_list)
+        Note: It would be resource efficient to compute and store (N+1)⋅N/2 elements instead of a matrix of N2.
+        This would be possible due to the properties of the symmetric matrix. But let's keep it simple by computing the
+        whole matrix.
+        """
+        num_of_cities = len(self.coord_list)
         matrix = np.zeros(shape=(num_of_cities, num_of_cities))
 
         for i in range(num_of_cities):
             for j in range(num_of_cities):
-
-                dist = cls.get_dist_two_nodes(coord_list, i, j)
+                dist = self.get_dist_two_nodes(self.coord_list, i, j)
 
                 if i == j:
                     continue
@@ -71,3 +69,15 @@ class Matrix:
         dist = math.sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2))
 
         return dist
+
+    @staticmethod
+    def generate_random_search_space(nodes=25):
+        np.random.seed(42)
+
+        coord = []
+        for i in range(nodes):
+            x = np.random.uniform(0, 100)
+            y = np.random.uniform(0, 100)
+            coord.append([x, y])
+
+        return coord
