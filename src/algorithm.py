@@ -13,9 +13,13 @@ class Algorithm:
     __metaclass__ = ABCMeta
 
     def __init__(self, path, stop, n_op):
-        self.coord = matrix.Matrix.get_coordinates_list(path_file=path)
-        self.matrix = matrix.Matrix.generate_matrix(self.coord)
-        self.nodes = len(self.matrix[0])
+        self.matrix = matrix.Matrix(path)
+        self.x_coord, self.y_coord = zip(*self.matrix.coord_list)
+
+        self.x_min, self.x_max = min(self.x_coord), max(self.x_coord)
+        self.y_min, self.y_max = min(self.y_coord), max(self.y_coord)
+
+        self.nodes = len(self.matrix.matrix[0])
         self.stop = stop
         self.n_op = n_ops.get_operator_by_name(n_op)
 
@@ -42,39 +46,42 @@ class Algorithm:
     def evaluate_solution(self, tour):
         cost = 0
         for i in range(len(tour) - 1):
-            cost += self.matrix[tour[i]][tour[i + 1]]
+            cost += self.matrix.matrix[tour[i]][tour[i + 1]]
 
         # adding the cost from last city in the route to the starting city
-        cost += self.matrix[tour[-1]][tour[0]]
+        cost += self.matrix.matrix[tour[-1]][tour[0]]
 
         return cost
 
-    @staticmethod
-    def plot_path(coord, tour, title, subtitle):
+    def plot_path(self, tour, title='', subtitle=''):
         """
         Plot the given path of nodes to visualise the result.
         """
-        x_coord, y_coord = [], []
+        plt.xlim(self.x_min - self.x_max * 0.1, self.x_max + self.x_max * 0.1)
+        plt.ylim(self.y_min - self.y_max * 0.1, self.y_max + self.y_max * 0.1)
 
-        for item in coord:
-            x_coord.append(item[0])
-            y_coord.append(item[1])
+        plt.scatter(self.x_coord, self.y_coord, color='black')
 
-        path_x, path_y = [], []
-
-        for val in tour:
-            path_x.append(x_coord[val])
-            path_y.append(y_coord[val])
-
-        plt.xlim(0, 10)
-        plt.ylim(0, 10)
-        plt.scatter(path_x, path_y, color='black')
-
-        plt.suptitle(title, fontsize=16)
-        plt.title(subtitle, fontsize=14)
+        path_x = [self.x_coord[val] for val in tour]
+        path_y = [self.y_coord[val] for val in tour]
 
         # adding the last city to come back to the starting point
         path_x.append(path_x[0])
         path_y.append(path_y[0])
 
+        plt.suptitle(title, fontsize=16)
+        plt.title(subtitle, fontsize=14)
+
         plt.plot(path_x, path_y, color='green')
+
+    def plot_search_space(self, title='', subtitle=''):
+        plt.rcParams["figure.figsize"] = (10, 8)
+        plt.tight_layout()
+        plt.xlim(self.x_min - self.x_max * 0.1, self.x_max + self.x_max * 0.1)
+        plt.ylim(self.y_min - self.y_max * 0.1, self.y_max + self.y_max * 0.1)
+
+        plt.suptitle(title, fontsize=16)
+        plt.title(subtitle, fontsize=14)
+
+        plt.scatter(self.x_coord, self.y_coord, color='black')
+        plt.show()
