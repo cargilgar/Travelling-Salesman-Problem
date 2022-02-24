@@ -8,8 +8,8 @@ from algorithm import Algorithm
 
 
 class GeneticAlgorithm(Algorithm):
-    def __init__(self, file, stop=50, neighbourhood_op="rand_swap_adj", elitism=0.8, mutation_rate=1, crossover_rate=1,
-                 population_rate=20):
+    def __init__(self, file='', stop=50, neighbourhood_op="rand_swap_adj", elitism=0.8, mutation_rate=1,
+                 crossover_rate=1, population_rate=20):
         super().__init__(file, stop, neighbourhood_op)
         self.elitism_rate = elitism
         self.mutation_rate = mutation_rate
@@ -21,7 +21,7 @@ class GeneticAlgorithm(Algorithm):
     def create_population(self, size):
         for _ in range(size):
             solution = self.generate_init_candidate(self.nodes)
-            chromosome = Chromosome(self.matrix, tour=solution)
+            chromosome = Chromosome(self.matrix.matrix, tour=solution)
             self.population.append(chromosome)
 
         self.fitness_function()
@@ -118,9 +118,9 @@ class GeneticAlgorithm(Algorithm):
 
             # Crossover
             crossover = parent_1.ordinal[:i] + parent_2.ordinal[i:]
-            child_1 = Chromosome(self.matrix, ordinal=crossover)
+            child_1 = Chromosome(self.matrix.matrix, ordinal=crossover)
             crossover = parent_1.ordinal[:i] + parent_2.ordinal[i:]
-            child_2 = Chromosome(self.matrix, ordinal=crossover)
+            child_2 = Chromosome(self.matrix.matrix, ordinal=crossover)
             offspring.append(child_1)
             offspring.append(child_2)
 
@@ -140,7 +140,7 @@ class GeneticAlgorithm(Algorithm):
 
         for occurrence in occurrences:
             new_tour = self.n_op.generate_candidate_solution(self.population[occurrence].tour.copy())
-            mutated = Chromosome(self.matrix, tour=new_tour)
+            mutated = Chromosome(self.matrix.matrix, tour=new_tour)
             self.population[occurrence] = mutated
 
         # End mutation by recalculating the fitness scores and sorting the population
@@ -153,6 +153,7 @@ class GeneticAlgorithm(Algorithm):
 
         if animation:
             plt.rcParams["figure.figsize"] = (10, 8)
+            plt.tight_layout()
 
         count, its = 0, 0
         while count < self.stop:
@@ -167,7 +168,7 @@ class GeneticAlgorithm(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(self.coord, best_chromosome.tour, f'Genetic Algorithm using {self.n_op.name}',
+                    self.plot_path(best_chromosome.tour, f'Genetic Algorithm using {self.n_op.name}',
                                    f'Iteration: {its} \nCost: {round(best_chromosome.cost)}')
                     plt.pause(0.05)
 
@@ -182,7 +183,6 @@ class GeneticAlgorithm(Algorithm):
             self.fill_missing_population()
 
         if animation:
-            plt.tight_layout()
             plt.show()
 
         # return best_chromosome

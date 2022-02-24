@@ -6,7 +6,7 @@ from algorithm import Algorithm
 
 
 class SimulatedAnnealing(Algorithm):
-    def __init__(self, file, stop=100, operator="rand_swap_adj", t_max=10, t_min=0.0005, alpha=0.995):
+    def __init__(self, file='', stop=100, operator="rand_swap_adj", t_max=10, t_min=0.0005, alpha=0.995):
         super().__init__(file, stop, operator)
         self.Tmax = t_max
         self.Tmin = t_min
@@ -27,6 +27,7 @@ class SimulatedAnnealing(Algorithm):
 
         if animation:
             plt.rcParams["figure.figsize"] = (10, 8)
+            plt.tight_layout()
 
         count, its = 0, 0
         while self.Tmin < T and count < self.stop:
@@ -43,7 +44,7 @@ class SimulatedAnnealing(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(self.coord, best_solution, f'Simulated Annealing using {self.n_op.name}',
+                    self.plot_path(best_solution, f'Simulated Annealing using {self.n_op.name}',
                                    f'Iteration: {its} \nCost: {round(best_cost)}')
                     plt.pause(0.05)
                 count = 0
@@ -53,7 +54,6 @@ class SimulatedAnnealing(Algorithm):
             T *= self.alpha  # geometric schedule
 
         if animation:
-            plt.tight_layout()
             plt.show()
 
         return its, cost_candidates, best_solution

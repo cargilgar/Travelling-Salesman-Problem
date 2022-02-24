@@ -4,7 +4,7 @@ from algorithm import Algorithm
 
 
 class TabuSearch(Algorithm):
-    def __init__(self, file, stop=100, operator="rand_swap_adj", tabu_size=20):
+    def __init__(self, file='', stop=100, operator="rand_swap_adj", tabu_size=20):
         super().__init__(file, stop, operator)
         self.tabu_tenure = tabu_size
         self.tabu_list = []
@@ -24,6 +24,7 @@ class TabuSearch(Algorithm):
 
         if animation:
             plt.rcParams["figure.figsize"] = (10, 8)
+            plt.tight_layout()
 
         count, its = 0, 0
         while count < self.stop:
@@ -48,7 +49,7 @@ class TabuSearch(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(self.coord, best_solution, f'Tabu Search using {self.n_op.name}',
+                    self.plot_path(best_solution, f'Tabu Search using {self.n_op.name}',
                                    f'Iteration: {its} \nCost: {round(cost_candidates[-1])}')
                     plt.pause(0.05)
 
@@ -61,7 +62,6 @@ class TabuSearch(Algorithm):
             count += 1
 
         if animation:
-            plt.tight_layout()
             plt.show()
 
         return its, cost_candidates, best_solution

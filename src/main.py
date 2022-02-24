@@ -19,10 +19,10 @@ if __name__ == "__main__":
     if not sys.version_info >= MIN_VERSION:
         sys.exit(f'Minimum Python {MIN_VERSION[0]}.{MIN_VERSION[1]} is required. Your current version is: {sys.version}')
 
-    file = '../TSP_Matrix.csv'
+    file = '../TSP_50_nodes.csv'  # if no file is given, then a random search space is generated
 
-    # Testing Simulated Annealing with inversion operator
-    SA = SimulatedAnnealing(file, operator='inversion', t_max=10, t_min=0.0005, alpha=0.995)
+    # --- Testing Simulated Annealing with inversion operator
+    SA = SimulatedAnnealing(file, operator='rand_swap', t_max=40, t_min=0, alpha=0.998)
     iterations, best_costs, best_solution = SA.run(animation=True)
 
     # SA accepts bad moves so this will plot a fluctuating descending curve. Also, because the probability acceptance
@@ -30,14 +30,14 @@ if __name__ == "__main__":
     plot_convergence(best_costs, 'SA minimisation convergence', x_label=f'Total iterations: {iterations}', y_label='Cost')
     print('SA best solution', best_solution)
 
-    # Testing Tabu Search with inversion operator
+    # --- Testing Tabu Search with inversion operator
     TS = TabuSearch(file, operator='inversion', tabu_size=20, stop=1000)
     iterations, best_costs, best_solution = TS.run(animation=True)
     plot_convergence(best_costs, 'TS minimisation convergence', x_label=f'Total iterations: {iterations}', y_label='Cost')
     print('TS best solution', best_solution)
 
-    # Running GA with tuned parameters
-    GA = GeneticAlgorithm(file, elitism=0.9, mutation_rate=0.9, crossover_rate=0.6, population_rate=30, stop=50)
+    # --- Running GA with tuned parameters
+    GA = GeneticAlgorithm()
     iterations, best_costs, best_solution = GA.run(animation=True)
     plot_convergence(best_costs, 'Evolution GA tuned parameters', x_label=f'Total iterations: {iterations}', y_label='Cost')
     print('GA best solution', best_solution)
