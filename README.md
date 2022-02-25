@@ -40,8 +40,11 @@ You can use any of the available [algorithms](#Algorithms) and modify their para
 ```py
 run(animation=True)
 ```
+|                   TSP search space                    |            TSP solution animation             |
+|:-----------------------------------------------------:|:---------------------------------------------:|
+|   <img src="img/TSP-search-space.png" width="700">    | <img src="img/TSP-animation.gif" width="750"> |
 
-Note: a version of **Python 3.8** or greater is needed in order to run this program. 
+**Note**: a version of **Python 3.8** or greater is needed in order to run this program. 
 
 ## Algorithms
 Algorithms for this problem:
