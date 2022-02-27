@@ -94,6 +94,9 @@ class GeneticAlgorithm(Algorithm):
         # Get a random number of chromosomes that are selected to be parents
         occurrences = random.sample(range(0, self.population_size), int(self.population_size * self.crossover_rate))
 
+        # Get elites of current population, their offspring are expected not to receive mutation.
+        elites = self.population[:int(self.population_size * self.elitism_rate)]
+
         parents = [self.population[i] for i in occurrences]
         parents_size = len(parents)
 
@@ -121,6 +124,12 @@ class GeneticAlgorithm(Algorithm):
             child_1 = Chromosome(self.matrix.matrix, ordinal=crossover)
             crossover = parent_1.ordinal[:i] + parent_2.ordinal[i:]
             child_2 = Chromosome(self.matrix.matrix, ordinal=crossover)
+
+            # Mark offspring which parents (at least one) are elite
+            if parent_1 in elites or parent_2 in elites:
+                child_1.elite_parents = True
+                child_2.elite_parents = True
+
             offspring.append(child_1)
             offspring.append(child_2)
 
@@ -139,9 +148,11 @@ class GeneticAlgorithm(Algorithm):
         occurrences = random.sample(range(0, self.population_size), int(self.population_size * self.mutation_rate))
 
         for occurrence in occurrences:
-            new_tour = self.n_op.generate_candidate_solution(self.population[occurrence].tour.copy())
-            mutated = Chromosome(self.matrix.matrix, tour=new_tour)
-            self.population[occurrence] = mutated
+            chromosome = self.population[occurrence]
+            if not chromosome.elite_parents:
+                new_tour = self.n_op.generate_candidate_solution(chromosome.tour.copy())
+                mutated = Chromosome(self.matrix.matrix, tour=new_tour)
+                self.population[occurrence] = mutated
 
         # End mutation by recalculating the fitness scores and sorting the population
         self.fitness_function()

@@ -8,8 +8,9 @@ class Chromosome:
     Extra sanity checking could be applied to operate with both types of tour's implementations. But for performance's
     sake, let's assume the tour to follow this format.
     """
-    def __init__(self, matrix, tour=None, ordinal=None):
+    def __init__(self, matrix, tour=None, ordinal=None, elite=False):
         self.fitness = 0
+        self.elite_parents = elite
 
         if tour is not None:
             self.tour = tour
