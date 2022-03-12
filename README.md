@@ -27,7 +27,7 @@ In order to achieve this, we need to take care of the following steps:
 4. **Solution evaluation**: for this problem, this is simply adding the cost of travelling through the cities.
 5. **Stopping criteria**: No improvement after some iterations or conditions. Note that each algorithm has its own criteria for stopping.
 
-## Instructions:
+## Instructions
 ```bash
 pip install requirements.txt
 
@@ -51,6 +51,7 @@ Algorithms for this problem:
 * [Simulated Annealing](./docs/SA.md#Simulated-Annealing) (SA)
 * [Tabu Search](./docs/TS.md#Tabu-Search) (TS)
 * [Genetic Algorithm](./docs/GA.md#Genetic-Algorithm) (GA)
+* [Hill Climbing Algorithm](./docs/HC.md#Hill-Climbing-Algorithm) (HC)
 
 ## Neighbourhood operators
 Neighbourhood operators available to choose from:
