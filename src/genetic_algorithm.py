@@ -195,7 +195,7 @@ class GeneticAlgorithm(Algorithm):
             self.fill_missing_population()
 
         if animation:
-            plt.show()
+            plt.show(block=True)
 
         # return best_chromosome
         return its, best_costs, best_chromosome.tour

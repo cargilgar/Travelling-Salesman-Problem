@@ -54,7 +54,7 @@ class SimulatedAnnealing(Algorithm):
             T *= self.alpha  # geometric schedule
 
         if animation:
-            plt.show()
+            plt.show(block=True)
 
         return its, cost_candidates, best_solution
 

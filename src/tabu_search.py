@@ -63,6 +63,6 @@ class TabuSearch(Algorithm):
             count += 1
 
         if animation:
-            plt.show()
+            plt.show(block=True)
 
         return its, cost_candidates, best_solution
