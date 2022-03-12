@@ -8,6 +8,7 @@ from algorithm import Algorithm
 class SimulatedAnnealing(Algorithm):
     def __init__(self, file='', stop=100, operator="rand_swap_adj", t_max=10, t_min=0.0005, alpha=0.995):
         super().__init__(file, stop, operator)
+        self.name = 'Simulated Annealing'
         self.Tmax = t_max
         self.Tmin = t_min
         self.alpha = alpha
@@ -19,8 +20,8 @@ class SimulatedAnnealing(Algorithm):
         operator and will tend to accept less bad moves over time,
         according to the acceptance probability.
         """
-        print(f'\nRunning Simulated Annealing. Stopping if no improvement after {self.stop} iterations')
-        best_solution = self.generate_init_candidate(self.nodes)
+        print(f'\nRunning {self.name}. Stopping if no improvement after {self.stop} iterations')
+        best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         T = self.Tmax
         cost_candidates = [best_cost]
@@ -32,7 +33,6 @@ class SimulatedAnnealing(Algorithm):
         count, its = 0, 0
         while self.Tmin < T and count < self.stop:
             solution_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
-
             cost_candidate = self.evaluate_solution(solution_candidate)
 
             acc_prob = self.calculate_acceptance_probability(best_cost, cost_candidate, T)
@@ -44,7 +44,7 @@ class SimulatedAnnealing(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(best_solution, f'Simulated Annealing using {self.n_op.name}',
+                    self.plot_path(best_solution, f'{self.name} using {self.n_op.name}',
                                    f'Iteration: {its} \nCost: {round(best_cost)}')
                     plt.pause(0.05)
                 count = 0

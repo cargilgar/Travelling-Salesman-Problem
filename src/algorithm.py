@@ -30,17 +30,16 @@ class Algorithm:
         """
         pass
 
-    @classmethod
-    def generate_init_candidate(cls, items, random_init=True):
+    def generate_init_candidate(self, random_init=True):
         init_solution = []
         if random_init:
-            init_solution = random.sample(range(0, items), items)
+            init_solution = random.sample(range(0, self.nodes), self.nodes)
         else:
             # TODO: greedy start
             pass
 
-        assert len(set(init_solution)) == items, 'The randomly generated initial solution does not contain all ' \
-                                                 'the {} items'.format(items)
+        assert len(set(init_solution)) == self.nodes, 'The randomly generated initial solution does not contain all ' \
+                                                      'the {} items'.format(self.nodes)
         return init_solution
 
     def evaluate_solution(self, tour):

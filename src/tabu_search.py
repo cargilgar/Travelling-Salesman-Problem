@@ -6,6 +6,7 @@ from algorithm import Algorithm
 class TabuSearch(Algorithm):
     def __init__(self, file='', stop=100, operator="rand_swap_adj", tabu_size=20):
         super().__init__(file, stop, operator)
+        self.name = 'Tabu Search'
         self.tabu_tenure = tabu_size
         self.tabu_list = []
 
@@ -16,8 +17,8 @@ class TabuSearch(Algorithm):
         operator and will tend to accept less bad moves over time,
         according to the acceptance probability.
         """
-        print(f'\nRunning Tabu Search. Stopping if no improvement after {self.stop} iterations')
-        best_solution = self.generate_init_candidate(self.nodes)
+        print(f'\nRunning {self.name}. Stopping if no improvement after {self.stop} iterations')
+        best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         cost_best_candidate = best_cost
         cost_candidates = [best_cost]
@@ -49,7 +50,7 @@ class TabuSearch(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(best_solution, f'Tabu Search using {self.n_op.name}',
+                    self.plot_path(best_solution, f'{self.name} using {self.n_op.name}',
                                    f'Iteration: {its} \nCost: {round(cost_candidates[-1])}')
                     plt.pause(0.05)
 

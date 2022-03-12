@@ -11,6 +11,7 @@ class GeneticAlgorithm(Algorithm):
     def __init__(self, file='', stop=50, neighbourhood_op="rand_swap_adj", elitism=0.8, mutation_rate=1,
                  crossover_rate=1, population_rate=20):
         super().__init__(file, stop, neighbourhood_op)
+        self.name = 'Genetic Algorithm'
         self.elitism_rate = elitism
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
@@ -20,7 +21,7 @@ class GeneticAlgorithm(Algorithm):
 
     def create_population(self, size):
         for _ in range(size):
-            solution = self.generate_init_candidate(self.nodes)
+            solution = self.generate_init_candidate()
             chromosome = Chromosome(self.matrix.matrix, tour=solution)
             self.population.append(chromosome)
 
@@ -158,7 +159,7 @@ class GeneticAlgorithm(Algorithm):
         self.fitness_function()
 
     def run(self, animation=False):
-        print(f'\nRunning Genetic Algorithm. Stopping if no improvement after {self.stop} iterations')
+        print(f'\nRunning {self.name}. Stopping if no improvement after {self.stop} iterations')
         best_chromosome = self.population[0]
         best_costs = []
 
@@ -179,7 +180,7 @@ class GeneticAlgorithm(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(best_chromosome.tour, f'Genetic Algorithm using {self.n_op.name}',
+                    self.plot_path(best_chromosome.tour, f'{self.name} using {self.n_op.name}',
                                    f'Iteration: {its} \nCost: {round(best_chromosome.cost)}')
                     plt.pause(0.05)
 
