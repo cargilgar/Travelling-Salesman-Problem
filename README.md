@@ -57,11 +57,11 @@ Algorithms for this problem:
 Neighbourhood operators available to choose from:
 * Random exchange
   ```py
-  key='ran_swap'
+  key='rand_swap'
   ```
 * Random exchange adjacent cities
   ```py
-  key='ran_swap_adj'
+  key='rand_swap_adj'
   ```
 * Inversion
   ```py
