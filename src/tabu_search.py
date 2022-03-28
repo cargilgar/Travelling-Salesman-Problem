@@ -27,7 +27,7 @@ class TabuSearch(Algorithm):
             plt.rcParams["figure.figsize"] = (10, 8)
             plt.tight_layout()
 
-        count, its = 0, 0
+        count, self.cycles = 0, 0
         while count < self.stop:
             sol_best_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
             # Evaluate all possible solutions within the neighbourhood space
@@ -45,13 +45,13 @@ class TabuSearch(Algorithm):
             if cost_best_candidate < (best_cost := self.evaluate_solution(best_solution)):
                 best_solution = sol_best_candidate.copy()
                 cost_candidates.append(best_cost)
-                its += 1
+                self.cycles += 1
                 count = 0
 
                 if animation:
                     plt.cla()
                     self.plot_path(best_solution, f'{self.name} using {self.n_op.name}',
-                                   f'Iteration: {its} \nCost: {round(cost_candidates[-1])}')
+                                   f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
                     plt.pause(0.05)
 
                 self.tabu_list.append(tabu_move)
@@ -65,4 +65,4 @@ class TabuSearch(Algorithm):
         if animation:
             plt.show(block=True)
 
-        return its, cost_candidates, best_solution
+        return cost_candidates, best_solution

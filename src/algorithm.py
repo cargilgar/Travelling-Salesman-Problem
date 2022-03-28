@@ -23,6 +23,8 @@ class Algorithm:
         self.stop = stop
         self.n_op = n_ops.get_operator_by_name(n_op)
 
+        self.cycles = 0
+
     @abstractmethod
     def run(self):
         """

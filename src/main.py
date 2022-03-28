@@ -27,6 +27,17 @@ def plot_convergence(costs_list, title, x_label='', y_label=''):
 
 parser = argparse.ArgumentParser(description='Solve the Travelling Salesman Problem')
 
+
+# # pro [-a xxx | [-b yyy -c zzz]]
+group = parser.add_argument_group('Model 2')
+group_ex = group.add_mutually_exclusive_group()
+group_ex.add_argument("-s", type=str, action = "store", default = "", help="test")
+group_ex_2 = group_ex.add_argument_group("option 2")
+group_ex_2.add_argument("-b", type=str, action = "store", default = "", help="test")
+group_ex_2.add_argument("-c", type=str, action = "store", default = "", help="test")
+
+
+
 parser.add_argument('-f', '--file', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
 
 parser.add_argument('-a', '--algorithm', required=False,
@@ -52,7 +63,7 @@ if __name__ == "__main__":
 
         constructor_params = str(inspect.signature(algo.__init__))[10:-1]
         print(f'Default parameters for {algo.name}: \n\t{constructor_params}')
-        leave_default = input('Keep these default parameters? (y/n)')
+        leave_default = input('Keep these default parameters? (y/n) \n')
 
         if leave_default == 'n':
             constructor_params = constructor_params.split(', ')
@@ -62,32 +73,8 @@ if __name__ == "__main__":
                 param = default_pattern.search(default_param)
                 choice = input(f'Enter value for {param[0]}: ')
 
-        algo.run(True)
+        # algo.run(True)
 
-
-    # HC = HillClimbing(file, climb_type='steepest')
-    # iterations, best_costs, best_solution = HC.run(animation=True)
-    # plot_convergence(best_costs, 'Hill climbing minimisation convergence', x_label=f'Total iterations: {iterations}',
-    #                  y_label='Cost')
-    # print('Hill climbing best solution', best_solution)
-
-    # # --- Testing Simulated Annealing with inversion operator
-    # SA = SimulatedAnnealing(file, operator='rand_swap', t_max=40, t_min=0, alpha=0.998)
-    # iterations, best_costs, best_solution = SA.run(animation=True)
-    #
-    # # SA accepts bad moves so this will plot a fluctuating descending curve. Also, because the probability acceptance
-    # # decreases over time, the curve will present bigger fluctuations at the beginning and less at the end.
-    # plot_convergence(best_costs, 'SA minimisation convergence', x_label=f'Total iterations: {iterations}', y_label='Cost')
-    # print('SA best solution', best_solution)
-    #
-    # # --- Testing Tabu Search with inversion operator
-    # TS = TabuSearch(file, operator='inversion', tabu_size=20, stop=1000)
-    # iterations, best_costs, best_solution = TS.run(animation=True)
-    # plot_convergence(best_costs, 'TS minimisation convergence', x_label=f'Total iterations: {iterations}', y_label='Cost')
-    # print('TS best solution', best_solution)
-    #
-    # # --- Running GA with tuned parameters
-    # GA = GeneticAlgorithm()
-    # iterations, best_costs, best_solution = GA.run(animation=True)
-    # plot_convergence(best_costs, 'Evolution GA tuned parameters', x_label=f'Total iterations: {iterations}', y_label='Cost')
-    # print('GA best solution', best_solution)
+    best_costs, best_solution = algo.run(animation=True)
+    plot_convergence(best_costs, f'{algo.name} minimisation convergence', x_label=f'Total iterations: {algo.cycles}', y_label='Cost')
+    print('TS best solution', best_solution)
