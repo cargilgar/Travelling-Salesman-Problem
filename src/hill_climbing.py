@@ -4,9 +4,9 @@ from algorithm import Algorithm
 
 
 class HillClimbing(Algorithm):
+    """Hill Climbing Algorithm"""
     def __init__(self, file='', stop=20, operator="two_opt", climb_type='steepest'):
         super().__init__(file, stop, operator)
-        self.name = 'Hill Climbing'
         self.climb_type = climb_type
 
     def evaluate_neighbourhood_space(self, tour):
@@ -32,7 +32,7 @@ class HillClimbing(Algorithm):
         """
         Run the Hill Climbing algorithm.
         """
-        print(f'\nRunning {self.name}. Stopping if no improvement after {self.stop} iterations')
+        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations')
         best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         cost_candidates = [best_cost]
@@ -59,7 +59,7 @@ class HillClimbing(Algorithm):
 
             if animation:
                 plt.cla()
-                self.plot_path(best_solution, f'{self.name} using {self.n_op.name}',
+                self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
                                f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
                 plt.pause(0.05)
 

@@ -6,10 +6,10 @@ from algorithm import Algorithm
 
 
 class SimulatedAnnealing(Algorithm):
+    """Simulated Annealing Algorithm"""
     def __init__(self, file='', stop=100, operator="inversion", t_max=10, t_min=0.0005, alpha=0.995,
                  cooling_schedule='slow'):
         super().__init__(file, stop, operator)
-        self.name = 'Simulated Annealing'
         self.Tmax = t_max
         self.Tmin = t_min
         self.T = t_max
@@ -23,7 +23,7 @@ class SimulatedAnnealing(Algorithm):
         operator and will tend to accept less bad moves over time,
         according to the acceptance probability.
         """
-        print(f'\nRunning {self.name}. Stopping if no improvement after {self.stop} iterations')
+        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations')
         best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         self.T = self.Tmax
@@ -47,7 +47,7 @@ class SimulatedAnnealing(Algorithm):
 
                 if animation:
                     plt.cla()
-                    self.plot_path(best_solution, f'{self.name} using {self.n_op.name}',
+                    self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
                                    f'Iteration: {self.cycles} \nCost: {round(best_cost)}')
                     plt.pause(0.05)
                 count = 0
