@@ -44,38 +44,31 @@ class ArgumentParser:
         args = parser.parse_args(sys.argv[1:2])
 
         getattr(self, args.algorithm)()
-
-    # TODO: add constructor arguments from the base clase
-    # base_construct_params_dict = dict(zip(inspect.getfullargspec(SimulatedAnnealing.__init__).args[1:4],
-    #                                       inspect.getfullargspec(SimulatedAnnealing.__init__).defaults[:3]))
-    #
-    # for param, default in base_construct_params_dict.items():
-    #     group.add_argument('--' + param, type=str, nargs='?', help=str(default))
-
+        
     @staticmethod
-    def get_algorithm(algo):
+    def get_algorithm_args(algo):
         parser = argparse.ArgumentParser(description=algo.__doc__)
 
-        algo_params_dict = dict(zip(inspect.getfullargspec(algo.__init__).args[4:],
-                                    inspect.getfullargspec(algo.__init__).defaults[3:]))
+        constructor_args_dict = dict(zip(inspect.getfullargspec(algo.__init__).args[2:],
+                                    inspect.getfullargspec(algo.__init__).defaults[1:]))
 
-        for param, default in algo_params_dict.items():
-            print(param, default)
-            parser.add_argument('--' + param, action='store_true', help=str(default))
+        for arg, default in constructor_args_dict.items():
+            print(arg, default)
+            parser.add_argument('--' + arg, action='store_true', help=str(default))
 
         parser.parse_args(sys.argv[2:])
 
     def sa(self):
-        self.get_algorithm(SimulatedAnnealing)
+        self.get_algorithm_args(SimulatedAnnealing)
 
     def ts(self):
-        self.get_algorithm(TabuSearch)
+        self.get_algorithm_args(TabuSearch)
 
     def ga(self):
-        self.get_algorithm(GeneticAlgorithm)
+        self.get_algorithm_args(GeneticAlgorithm)
 
     def hc(self):
-        self.get_algorithm(HillClimbing)
+        self.get_algorithm_args(HillClimbing)
 
 
 if __name__ == "__main__":
