@@ -2,7 +2,6 @@ from abc import ABCMeta, abstractmethod
 import random
 
 
-# TODO: if false name given, the operator should not be NoneType!! We need an instance of this class.
 def get_operator_by_name(op_name):
     ops_dict = {'rand_swap': RandomSwap(),
                 'rand_swap_adj': RandomSwapAdjacent(),
@@ -10,7 +9,14 @@ def get_operator_by_name(op_name):
                 'two_opt': TwoOpt(),
                 'three_opt': ThreeOpt()
                 }
-    return ops_dict.get(op_name)
+
+    result = ops_dict.get(op_name)
+
+    # If input given does not correspond to any op available, then take the first one
+    if not result:
+        result = ops_dict.get('rand_swap')
+
+    return result
 
 
 class Operator:
@@ -53,8 +59,7 @@ class Operator:
 
 
 class RandomSwap(Operator):
-    def __init__(self):
-        self.name = "Random Exchange"
+    """Random Exchange"""
 
     def generate_candidate_solution(self, path):
         """
@@ -68,8 +73,7 @@ class RandomSwap(Operator):
 
 
 class RandomSwapAdjacent(Operator):
-    def __init__(self):
-        self.name = "Random Exchange Adjacent"
+    """Random Exchange Adjacent"""
 
     def generate_candidate_solution(self, path):
         """
@@ -84,8 +88,7 @@ class RandomSwapAdjacent(Operator):
 
 
 class Inversion(Operator):
-    def __init__(self):
-        self.name = "Inversion"
+    """Inversion"""
 
     def generate_candidate_solution(self, path):
         """
@@ -102,8 +105,7 @@ class Inversion(Operator):
 
 
 class TwoOpt(Operator):
-    def __init__(self):
-        self.name = "2-Opt"
+    """2-Opt"""
 
     def generate_candidate_solution(self, path):
         """
@@ -128,8 +130,7 @@ class TwoOpt(Operator):
 
 
 class ThreeOpt(Operator):
-    def __init__(self):
-        self.name = "3-Opt"
+    """3-Opt"""
 
     def generate_candidate_solution(self, path):
         """

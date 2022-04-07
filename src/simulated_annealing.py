@@ -14,7 +14,18 @@ class SimulatedAnnealing(Algorithm):
         self.Tmin = t_min
         self.T = t_max
         self.alpha = alpha
-        self.schedule = cooling_schedule
+
+        self.cooling_schedules_dict = {
+            'linear': lambda: self.T - self.alpha,
+            'geometric': lambda: self.T * self.alpha,
+            'slow': lambda: self.T / (1 + self.alpha * self.T),
+            'exp_mult': lambda: self.T * math.pow(self.alpha, self.cycles),
+            'linear_mult': lambda: self.T / (1 + self.alpha * self.cycles),
+            'quad_mult': lambda: self.T / (1 + self.alpha * math.pow(self.cycles, 2)),
+            'log_mult': lambda: self.T / (1 + self.alpha * math.log(1 + self.cycles))
+        }
+
+        self.decrease_temperature = self.cooling_schedules_dict.get(cooling_schedule)
 
     def run(self):
         """
@@ -45,7 +56,7 @@ class SimulatedAnnealing(Algorithm):
                 cost_candidates.append(cost_candidate)
 
                 plt.cla()
-                self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
+                self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.__doc__}',
                                f'Iteration: {self.cycles} \nCost: {round(best_cost)}')
                 plt.pause(0.05)
                 count = 0
@@ -53,7 +64,7 @@ class SimulatedAnnealing(Algorithm):
             self.cycles += 1
             count += 1
 
-            self.decrease_temperature()
+            self.T = self.decrease_temperature()
 
         plt.show(block=True)
 
@@ -68,19 +79,3 @@ class SimulatedAnnealing(Algorithm):
             return 1.0
 
         return math.exp((cost_1 - cost_2) / self.T)
-
-    def decrease_temperature(self):
-        if self.schedule == 'linear':
-            self.T -= self.alpha
-        elif self.schedule == 'geometric':
-            self.T *= self.alpha
-        elif self.schedule == 'slow':
-            self.T = self.T / (1 + self.alpha * self.T)
-        elif self.schedule == 'exp_mult':
-            self.T *= math.pow(self.alpha, self.cycles)
-        elif self.schedule == 'linear_mult':
-            self.T = self.T / (1 + self.alpha * self.cycles)
-        elif self.schedule == 'quad_mult':
-            self.T = self.T / (1 + self.alpha * math.pow(self.cycles, 2))
-        elif self.schedule == 'log_mult':
-            self.T = self.T / (1 + self.alpha * math.log(1 + self.cycles))

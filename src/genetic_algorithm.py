@@ -178,7 +178,7 @@ class GeneticAlgorithm(Algorithm):
                 best_costs.append(best_chromosome.cost)
 
                 plt.cla()
-                self.plot_path(best_chromosome.tour, f'{self.__doc__} using {self.n_op.name}',
+                self.plot_path(best_chromosome.tour, f'{self.__doc__} using {self.n_op.__doc__}',
                                f'Iteration: {self.cycles} \nCost: {round(best_chromosome.cost)}')
                 plt.pause(0.05)
 

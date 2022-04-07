@@ -57,7 +57,7 @@ class HillClimbing(Algorithm):
                 count = 0
 
             plt.cla()
-            self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
+            self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.__doc__}',
                            f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
             plt.pause(0.05)
 
