@@ -86,3 +86,11 @@ class Algorithm:
 
         plt.scatter(self.x_coord, self.y_coord, color='black')
         plt.show()
+
+    @staticmethod
+    def plot_convergence(costs_list, title, x_label='', y_label=''):
+        plt.suptitle(title, fontsize=16)
+        plt.xlabel(x_label, fontsize=12)
+        plt.ylabel(y_label, fontsize=12)
+        plt.plot(costs_list)
+        plt.show()

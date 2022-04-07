@@ -158,14 +158,13 @@ class GeneticAlgorithm(Algorithm):
         # End mutation by recalculating the fitness scores and sorting the population
         self.fitness_function()
 
-    def run(self, animation=False):
-        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations')
+    def run(self):
+        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations \n')
         best_chromosome = self.population[0]
         best_costs = []
 
-        if animation:
-            plt.rcParams["figure.figsize"] = (10, 8)
-            plt.tight_layout()
+        plt.rcParams["figure.figsize"] = (10, 8)
+        plt.tight_layout()
 
         count, self.cycles = 0, 0
         while count < self.stop:
@@ -178,11 +177,10 @@ class GeneticAlgorithm(Algorithm):
                 print(f'Better chromosome found. Cost: {round(best_chromosome.cost)}')
                 best_costs.append(best_chromosome.cost)
 
-                if animation:
-                    plt.cla()
-                    self.plot_path(best_chromosome.tour, f'{self.__doc__} using {self.n_op.name}',
-                                   f'Iteration: {self.cycles} \nCost: {round(best_chromosome.cost)}')
-                    plt.pause(0.05)
+                plt.cla()
+                self.plot_path(best_chromosome.tour, f'{self.__doc__} using {self.n_op.name}',
+                               f'Iteration: {self.cycles} \nCost: {round(best_chromosome.cost)}')
+                plt.pause(0.05)
 
                 count = 0
             else:
@@ -194,8 +192,7 @@ class GeneticAlgorithm(Algorithm):
             self.remove_duplicates()
             self.fill_missing_population()
 
-        if animation:
-            plt.show(block=True)
+        plt.show(block=True)
 
-        # return best_chromosome
-        return best_costs, best_chromosome.tour
+        self.plot_convergence(best_costs, f'{self.__doc__} minimisation convergence',
+                              x_label=f'Total iterations: {self.cycles}', y_label='Cost')

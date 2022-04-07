@@ -28,18 +28,17 @@ class HillClimbing(Algorithm):
 
         return best_candidate_solution, cost
 
-    def run(self, animation=False):
+    def run(self):
         """
         Run the Hill Climbing algorithm.
         """
-        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations')
+        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations \n')
         best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         cost_candidates = [best_cost]
 
-        if animation:
-            plt.rcParams["figure.figsize"] = (10, 8)
-            plt.tight_layout()
+        plt.rcParams["figure.figsize"] = (10, 8)
+        plt.tight_layout()
 
         count, self.cycles = 0, 0
         while count < self.stop:
@@ -57,16 +56,15 @@ class HillClimbing(Algorithm):
                 cost_candidates.append(cost_candidate)
                 count = 0
 
-            if animation:
-                plt.cla()
-                self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
-                               f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
-                plt.pause(0.05)
+            plt.cla()
+            self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
+                           f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
+            plt.pause(0.05)
 
             self.cycles += 1
             count += 1
 
-        if animation:
-            plt.show(block=True)
+        plt.show(block=True)
 
-        return cost_candidates, best_solution
+        self.plot_convergence(cost_candidates, f'{self.__doc__} minimisation convergence',
+                              x_label=f'Total iterations: {self.cycles}', y_label='Cost')

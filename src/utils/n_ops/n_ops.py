@@ -2,6 +2,7 @@ from abc import ABCMeta, abstractmethod
 import random
 
 
+# TODO: if false name given, the operator should not be NoneType!! We need an instance of this class.
 def get_operator_by_name(op_name):
     ops_dict = {'rand_swap': RandomSwap(),
                 'rand_swap_adj': RandomSwapAdjacent(),

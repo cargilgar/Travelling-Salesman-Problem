@@ -16,22 +16,21 @@ class SimulatedAnnealing(Algorithm):
         self.alpha = alpha
         self.schedule = cooling_schedule
 
-    def run(self, animation=False):
+    def run(self):
         """
         Run the Simulated Annealing algorithm to stop when T < Tmin.
         The algorithm generates candidates based on the selected neighbourhood
         operator and will tend to accept less bad moves over time,
         according to the acceptance probability.
         """
-        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations')
+        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations \n')
         best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         self.T = self.Tmax
         cost_candidates = [best_cost]
 
-        if animation:
-            plt.rcParams["figure.figsize"] = (10, 8)
-            plt.tight_layout()
+        plt.rcParams["figure.figsize"] = (10, 8)
+        plt.tight_layout()
 
         count, self.cycles = 0, 0
         while self.Tmin < self.T and count < self.stop:
@@ -45,11 +44,10 @@ class SimulatedAnnealing(Algorithm):
                 best_cost = cost_candidate
                 cost_candidates.append(cost_candidate)
 
-                if animation:
-                    plt.cla()
-                    self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
-                                   f'Iteration: {self.cycles} \nCost: {round(best_cost)}')
-                    plt.pause(0.05)
+                plt.cla()
+                self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
+                               f'Iteration: {self.cycles} \nCost: {round(best_cost)}')
+                plt.pause(0.05)
                 count = 0
 
             self.cycles += 1
@@ -57,10 +55,10 @@ class SimulatedAnnealing(Algorithm):
 
             self.decrease_temperature()
 
-        if animation:
-            plt.show(block=True)
+        plt.show(block=True)
 
-        return cost_candidates, best_solution
+        self.plot_convergence(cost_candidates, f'{self.__doc__} minimisation convergence',
+                              x_label=f'Total iterations: {self.cycles}', y_label='Cost')
 
     def calculate_acceptance_probability(self, cost_1, cost_2):
         """

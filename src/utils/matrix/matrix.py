@@ -9,7 +9,7 @@ class Matrix:
     This class obtains a distance matrix from a csv file and stores the coordinates of each node.
     """
     def __init__(self, path_file=''):
-        if len(path_file) == 0:
+        if len(path_file) < 1:
             self.coord_list = self.generate_random_search_space()
         else:
             self.coord_list = self.load_file(path_file)

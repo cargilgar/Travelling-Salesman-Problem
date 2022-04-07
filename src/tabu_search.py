@@ -10,22 +10,21 @@ class TabuSearch(Algorithm):
         self.tabu_tenure = tabu_size
         self.tabu_list = []
 
-    def run(self, animation=False):
+    def run(self):
         """
         Run the Tabu Search algorithm to stop when...
         The algorithm generates candidates based on the selected neighbourhood
         operator and will tend to accept less bad moves over time,
         according to the acceptance probability.
         """
-        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations')
+        print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations \n')
         best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
         cost_best_candidate = best_cost
         cost_candidates = [best_cost]
 
-        if animation:
-            plt.rcParams["figure.figsize"] = (10, 8)
-            plt.tight_layout()
+        plt.rcParams["figure.figsize"] = (10, 8)
+        plt.tight_layout()
 
         count, self.cycles = 0, 0
         while count < self.stop:
@@ -48,11 +47,10 @@ class TabuSearch(Algorithm):
                 self.cycles += 1
                 count = 0
 
-                if animation:
-                    plt.cla()
-                    self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
-                                   f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
-                    plt.pause(0.05)
+                plt.cla()
+                self.plot_path(best_solution, f'{self.__doc__} using {self.n_op.name}',
+                               f'Iteration: {self.cycles} \nCost: {round(cost_candidates[-1])}')
+                plt.pause(0.05)
 
                 self.tabu_list.append(tabu_move)
 
@@ -62,7 +60,7 @@ class TabuSearch(Algorithm):
 
             count += 1
 
-        if animation:
-            plt.show(block=True)
+        plt.show(block=True)
 
-        return cost_candidates, best_solution
+        self.plot_convergence(cost_candidates, f'{self.__doc__} minimisation convergence',
+                              x_label=f'Total iterations: {self.cycles}', y_label='Cost')
