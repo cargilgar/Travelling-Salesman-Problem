@@ -46,10 +46,10 @@ class Matrix:
 
         for i in range(num_of_cities):
             for j in range(num_of_cities):
-                dist = self.get_dist_two_nodes(self.coord_list, i, j)
-
                 if i == j:
                     continue
+
+                dist = self.get_dist_two_nodes(self.coord_list, i, j)
 
                 matrix[i][j] = dist
 

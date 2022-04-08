@@ -1,6 +1,7 @@
 import sys
 import argparse
 import inspect
+from itertools import cycle
 
 from genetic_algorithm import GeneticAlgorithm
 from simulated_annealing import SimulatedAnnealing
@@ -38,37 +39,37 @@ class ArgumentParser:
         for arg, default in constructor_args_dict.items():
             parser.add_argument('--' + arg, action='store_true', help=str(default))
 
-        known_args, unknown = parser.parse_known_args(sys.argv[2:])
+        known_args, unknown_args = parser.parse_known_args(sys.argv[2:])
 
         known_args_dict = vars(known_args)
-
+        input_args = cycle(unknown_args)
         constructor_args = dict()
 
-        for i, (key, value) in enumerate(known_args_dict.items()):
-            if value:
-                try:
-                    constructor_args[key] = int(unknown[i])
-                except ValueError:
-                    constructor_args[key] = unknown[i]
-            else:
-                try:
-                    constructor_args[key] = int(constructor_args_dict[key])
-                except ValueError:
-                    constructor_args[key] = constructor_args_dict[key]
+        for key, value in known_args_dict.items():
+            res = next(input_args) if value else constructor_args_dict[key]
+
+            try:
+                constructor_args[key] = int(res)
+            except ValueError:
+                constructor_args[key] = res
 
         cls.run_tsp_solver(algo_select, constructor_args)
 
-    def sa(self):
-        self.get_algorithm_args(SimulatedAnnealing)
+    @classmethod
+    def sa(cls):
+        cls.get_algorithm_args(SimulatedAnnealing)
 
-    def ts(self):
-        self.get_algorithm_args(TabuSearch)
+    @classmethod
+    def ts(cls):
+        cls.get_algorithm_args(TabuSearch)
 
-    def ga(self):
-        self.get_algorithm_args(GeneticAlgorithm)
+    @classmethod
+    def ga(cls):
+        cls.get_algorithm_args(GeneticAlgorithm)
 
-    def hc(self):
-        self.get_algorithm_args(HillClimbing)
+    @classmethod
+    def hc(cls):
+        cls.get_algorithm_args(HillClimbing)
 
 
 if __name__ == "__main__":
