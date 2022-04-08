@@ -1,7 +1,8 @@
 import csv
 import math
-import os
 import numpy as np
+
+from ..definitions.definitions import get_abs_path
 
 
 class Matrix:
@@ -17,16 +18,23 @@ class Matrix:
         self.matrix = self.generate_matrix()
 
     @classmethod
-    def load_file(cls, path_file):
-        if not os.path.isfile(path_file):
-            raise FileNotFoundError
+    def load_file(cls, file):
+        """
+        Load the given csv file. It should be located in the data folder.
+        :returns: list of coordinates of each city
+        """
+
+        path_file = get_abs_path('data', file)
 
         cities_coordinates = []
-        with open(path_file, 'r', encoding='utf-8') as file:
-            reader = csv.reader(file, quoting=csv.QUOTE_NONNUMERIC)
+        try:
+            with open(path_file, 'r', encoding='utf-8') as f:
+                reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
 
-            for row in reader:
-                cities_coordinates.append(row)
+                for row in reader:
+                    cities_coordinates.append(row)
+        except FileNotFoundError as err:
+            raise err
 
         assert len(cities_coordinates) > 0, "Error loading the csv file"
 
@@ -39,6 +47,8 @@ class Matrix:
         Note: It would be resource efficient to compute and store (N+1)⋅N/2 elements instead of a matrix of N2.
         This would be possible due to the properties of the symmetric matrix. But let's keep it simple by computing the
         whole matrix.
+
+        :returns: distance matrix
         """
         num_of_cities = len(self.coord_list)
         matrix = np.zeros(shape=(num_of_cities, num_of_cities))
@@ -58,7 +68,9 @@ class Matrix:
     @staticmethod
     def get_dist_two_nodes(coord_list, node_1, node_2):
         """
-        Get the relative distance by applying the Pythagorean theorem
+        Get the relative distance by applying the Pythagorean theorem.
+
+        :returns: distance between two points
         """
         x1 = coord_list[node_1][0]
         y1 = coord_list[node_1][1]

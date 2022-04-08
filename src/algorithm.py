@@ -12,8 +12,8 @@ class Algorithm:
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, path, stop, n_op):
-        self.matrix = matrix.Matrix(path)
+    def __init__(self, file, stop, n_op):
+        self.matrix = matrix.Matrix(file)
         self.x_coord, self.y_coord = zip(*self.matrix.coord_list)
 
         self.x_min, self.x_max = min(self.x_coord), max(self.x_coord)
