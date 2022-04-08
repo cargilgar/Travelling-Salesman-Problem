@@ -11,7 +11,7 @@ class HillClimbing(Algorithm):
 
     def evaluate_neighbourhood_space(self, tour):
         """
-        Steepest Ascend only: Evaluate all possible solution within the neighbourhood space and select the best one.
+        Steepest Ascend only: Evaluate all possible solutions within the neighbourhood space and select the best one.
         """
         cost = self.evaluate_solution(tour) * 10  # this makes a number big enough to hit the first condition
         best_candidate_solution = tour.copy()

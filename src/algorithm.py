@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
-import matplotlib.pyplot as plt
 import random
+import matplotlib.pyplot as plt
 
 from utils.matrix import matrix
 from utils.n_ops import n_ops
@@ -30,9 +30,12 @@ class Algorithm:
         """
         Run the algorithm until the stopping criterion is met.
         """
-        pass
+        return
 
     def generate_init_candidate(self, random_init=True):
+        """
+        Generate an initial solution given the search space.
+        """
         init_solution = []
         if random_init:
             init_solution = random.sample(range(0, self.nodes), self.nodes)
@@ -40,11 +43,14 @@ class Algorithm:
             # TODO: greedy start
             pass
 
-        assert len(set(init_solution)) == self.nodes, 'The randomly generated initial solution does not contain all ' \
-                                                      'the {} items'.format(self.nodes)
+        assert len(set(init_solution)) == self.nodes, \
+            f'The randomly generated initial solution does not contain all the {self.nodes} items'
         return init_solution
 
     def evaluate_solution(self, tour):
+        """
+        Calculate the cost of the given solution based on the matrix of distances
+        """
         cost = 0
         for i in range(len(tour) - 1):
             cost += self.matrix.matrix[tour[i]][tour[i + 1]]
@@ -76,6 +82,9 @@ class Algorithm:
         plt.plot(path_x, path_y, color='green')
 
     def plot_search_space(self, title='', subtitle=''):
+        """
+        Plot search space of all the cities without the tours.
+        """
         plt.rcParams["figure.figsize"] = (10, 8)
         plt.tight_layout()
         plt.xlim(self.x_min - self.x_max * 0.1, self.x_max + self.x_max * 0.1)
@@ -89,6 +98,9 @@ class Algorithm:
 
     @staticmethod
     def plot_convergence(costs_list, title, x_label='', y_label=''):
+        """
+        Plot learning process (decrease of travelling cost) of algorithm over time.
+        """
         plt.suptitle(title, fontsize=16)
         plt.xlabel(x_label, fontsize=12)
         plt.ylabel(y_label, fontsize=12)

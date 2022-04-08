@@ -19,17 +19,16 @@ class Matrix:
     @classmethod
     def load_file(cls, path_file):
         if not os.path.isfile(path_file):
-            raise "file does not exist"
+            raise FileNotFoundError
 
         cities_coordinates = []
-        with open(path_file, 'r') as file:
+        with open(path_file, 'r', encoding='utf-8') as file:
             reader = csv.reader(file, quoting=csv.QUOTE_NONNUMERIC)
 
             for row in reader:
                 cities_coordinates.append(row)
 
-        if len(cities_coordinates) == 0:
-            raise "Error loading the csv file"
+        assert len(cities_coordinates) > 0, "Error loading the csv file"
 
         return cities_coordinates
 
@@ -75,7 +74,7 @@ class Matrix:
         np.random.seed(42)
 
         coord = []
-        for i in range(nodes):
+        for _ in range(nodes):
             x = np.random.uniform(0, 100)
             y = np.random.uniform(0, 100)
             coord.append([x, y])

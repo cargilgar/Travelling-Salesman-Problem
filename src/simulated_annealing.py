@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
 import random
 import math
+import matplotlib.pyplot as plt
 
 from algorithm import Algorithm
 
@@ -10,19 +10,19 @@ class SimulatedAnnealing(Algorithm):
     def __init__(self, file='', stop=100, operator="inversion", t_max=10, t_min=0.0005, alpha=0.995,
                  cooling_schedule='slow'):
         super().__init__(file, stop, operator)
-        self.Tmax = t_max
-        self.Tmin = t_min
-        self.T = t_max
+        self.t_max = t_max
+        self.t_min = t_min
+        self.current_temp = t_max
         self.alpha = alpha
 
         self.cooling_schedules_dict = {
-            'linear': lambda: self.T - self.alpha,
-            'geometric': lambda: self.T * self.alpha,
-            'slow': lambda: self.T / (1 + self.alpha * self.T),
-            'exp_mult': lambda: self.T * math.pow(self.alpha, self.cycles),
-            'linear_mult': lambda: self.T / (1 + self.alpha * self.cycles),
-            'quad_mult': lambda: self.T / (1 + self.alpha * math.pow(self.cycles, 2)),
-            'log_mult': lambda: self.T / (1 + self.alpha * math.log(1 + self.cycles))
+            'linear': lambda: self.current_temp - self.alpha,
+            'geometric': lambda: self.current_temp * self.alpha,
+            'slow': lambda: self.current_temp / (1 + self.alpha * self.current_temp),
+            'exp_mult': lambda: self.current_temp * math.pow(self.alpha, self.cycles),
+            'linear_mult': lambda: self.current_temp / (1 + self.alpha * self.cycles),
+            'quad_mult': lambda: self.current_temp / (1 + self.alpha * math.pow(self.cycles, 2)),
+            'log_mult': lambda: self.current_temp / (1 + self.alpha * math.log(1 + self.cycles))
         }
 
         self.decrease_temperature = self.cooling_schedules_dict.get(cooling_schedule)
@@ -37,14 +37,14 @@ class SimulatedAnnealing(Algorithm):
         print(f'\nRunning {self.__doc__}. Stopping if no improvement after {self.stop} iterations \n')
         best_solution = self.generate_init_candidate()
         best_cost = self.evaluate_solution(best_solution)
-        self.T = self.Tmax
+        self.current_temp = self.t_max
         cost_candidates = [best_cost]
 
         plt.rcParams["figure.figsize"] = (10, 8)
         plt.tight_layout()
 
         count, self.cycles = 0, 0
-        while self.Tmin < self.T and count < self.stop:
+        while self.t_min < self.current_temp and count < self.stop:
             solution_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
             cost_candidate = self.evaluate_solution(solution_candidate)
 
@@ -64,7 +64,7 @@ class SimulatedAnnealing(Algorithm):
             self.cycles += 1
             count += 1
 
-            self.T = self.decrease_temperature()
+            self.current_temp = self.decrease_temperature()
 
         plt.show(block=True)
 
@@ -78,4 +78,4 @@ class SimulatedAnnealing(Algorithm):
         if cost_1 > cost_2:  # new candidate is already better than current solution
             return 1.0
 
-        return math.exp((cost_1 - cost_2) / self.T)
+        return math.exp((cost_1 - cost_2) / self.current_temp)

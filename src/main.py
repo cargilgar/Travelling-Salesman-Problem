@@ -10,6 +10,9 @@ from hill_climbing import HillClimbing
 
 
 class ArgumentParser:
+    """
+    Argument parser for the commands input to solve the TSP
+    """
     def __init__(self):
         parser = argparse.ArgumentParser(
             description='Solve the Travelling Salesman Problem (TSP)',
@@ -43,7 +46,7 @@ class ArgumentParser:
 
         known_args_dict = vars(known_args)
         input_args = cycle(unknown_args)
-        constructor_args = dict()
+        constructor_args = {}
 
         for key, value in known_args_dict.items():
             res = next(input_args) if value else constructor_args_dict[key]

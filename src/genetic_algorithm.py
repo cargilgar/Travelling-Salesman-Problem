@@ -9,9 +9,9 @@ from algorithm import Algorithm
 
 class GeneticAlgorithm(Algorithm):
     """Genetic Algorithm"""
-    def __init__(self, file='', stop=50, neighbourhood_op="rand_swap_adj", elitism=0.8, mutation_rate=1,
+    def __init__(self, file='', stop=50, operator="rand_swap_adj", elitism=0.8, mutation_rate=1,
                  crossover_rate=1, population_rate=20):
-        super().__init__(file, stop, neighbourhood_op)
+        super().__init__(file, stop, operator)
         self.elitism_rate = elitism
         self.mutation_rate = mutation_rate
         self.crossover_rate = crossover_rate
@@ -20,6 +20,9 @@ class GeneticAlgorithm(Algorithm):
         self.create_population(self.population_size)  # Initial population of P chromosomes (generation 0).
 
     def create_population(self, size):
+        """
+        Create initial population of chromosomes based on generate_init_candidate() criteria.
+        """
         for _ in range(size):
             solution = self.generate_init_candidate()
             chromosome = Chromosome(self.matrix.matrix, tour=solution)
@@ -54,6 +57,9 @@ class GeneticAlgorithm(Algorithm):
         self.population = unique_population.copy()
 
     def fill_missing_population(self):
+        """
+        After each generation fill missing population if chromosomes have been removed.
+        """
         if (diff := (self.population_size - len(self.population))) > 0:
             self.create_population(diff)
 
@@ -109,13 +115,8 @@ class GeneticAlgorithm(Algorithm):
 
         while len(offspring) < parents_size and len(parents) > 0:
             # Select two parents randomly for mating
-            parent_1_selector = random.randint(0, len(parents) - 1)
-            parent_1 = parents[parent_1_selector]
-            parents.pop(parent_1_selector)
-
-            parent_2_selector = random.randint(0, len(parents) - 1)
-            parent_2 = parents[parent_2_selector]
-            parents.pop(parent_2_selector)
+            parent_1 = parents.pop(random.randint(0, len(parents) - 1))
+            parent_2 = parents.pop(random.randint(0, len(parents) - 1))
 
             # One-point divider
             i = random.randint(0, self.nodes)
@@ -123,7 +124,7 @@ class GeneticAlgorithm(Algorithm):
             # Crossover
             crossover = parent_1.ordinal[:i] + parent_2.ordinal[i:]
             child_1 = Chromosome(self.matrix.matrix, ordinal=crossover)
-            crossover = parent_1.ordinal[:i] + parent_2.ordinal[i:]
+            crossover = parent_2.ordinal[:i] + parent_1.ordinal[i:]
             child_2 = Chromosome(self.matrix.matrix, ordinal=crossover)
 
             # Mark offspring which parents (at least one) are elite

@@ -30,23 +30,24 @@ class Operator:
         """
         Given a list, generate a candidate solution based on the operator type.
         """
-        pass
+        return
 
     # functional methods
     @classmethod
     def get_random_index(cls, range_list, num_indexes):
+        """
+        Get one or more randomly selected indexes from a given list.
+        """
+        assert num_indexes != 0, 'The number of indexes cannot be 0. It must be 1 or greater.'
 
-        if num_indexes == 0:
-            raise 'The number of indexes cannot be 0. It must be 1 or greater.'
-        elif num_indexes == 1:
+        if num_indexes == 1:
             return random.randrange(range_list)
 
-        if num_indexes > range_list:
-            raise 'More indexes to return than the size of current list.'
+        assert num_indexes < range_list, 'More indexes to return than the size of current list.'
 
         ret = [random.randrange(range_list)]
 
-        for i in range(num_indexes - 1):
+        for _ in range(num_indexes - 1):
             next_rand_node = random.randrange(range_list)
 
             # Ensure that next_rand_node is not the same as the other random nodes generated
@@ -120,7 +121,8 @@ class TwoOpt(Operator):
         while node_c == node_a:
             node_c = self.get_random_index(len(path) - 1, 1)
 
-        # In 2-opt operator there are 4 possible permutations, 2 of which are the same but with opposite directions.
+        # In 2-opt operator there are 4 possible permutations, 2 of which are the same
+        # but with opposite directions.
         # Then only one permutation is to be compared with the original path
 
         # Swap node_b and node_c:
@@ -136,4 +138,4 @@ class ThreeOpt(Operator):
         """
         Remove randomly 3 edges and replace all the possible permutations.
         """
-        pass
+        return
