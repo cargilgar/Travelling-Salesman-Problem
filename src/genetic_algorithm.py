@@ -167,7 +167,7 @@ class GeneticAlgorithm(Algorithm):
         plt.rcParams["figure.figsize"] = (10, 8)
         plt.tight_layout()
 
-        count, self.cycles = 0, 0
+        count = 0
         while count < self.stop:
             self.selection()
             self.crossover()

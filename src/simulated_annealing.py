@@ -43,7 +43,7 @@ class SimulatedAnnealing(Algorithm):
         plt.rcParams["figure.figsize"] = (10, 8)
         plt.tight_layout()
 
-        count, self.cycles = 0, 0
+        count = 0
         while self.t_min < self.current_temp and count < self.stop:
             solution_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
             cost_candidate = self.evaluate_solution(solution_candidate)

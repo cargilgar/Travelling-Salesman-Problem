@@ -26,9 +26,10 @@ class TabuSearch(Algorithm):
         plt.rcParams["figure.figsize"] = (10, 8)
         plt.tight_layout()
 
-        count, self.cycles = 0, 0
+        count = 0
         while count < self.stop:
             sol_best_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
+
             # Evaluate all possible solutions within the neighbourhood space
             tabu_move = []
             for i in range(len(sol_best_candidate) - 1):

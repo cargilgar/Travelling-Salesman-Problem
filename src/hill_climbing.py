@@ -9,6 +9,11 @@ class HillClimbing(Algorithm):
         super().__init__(file, stop, operator)
         self.climb_type = climb_type
 
+        self.evaluate = {
+            'steepest': self.evaluate_neighbourhood_space,
+            'ascent': self.evaluate_solution
+        }
+
     def evaluate_neighbourhood_space(self, tour):
         """
         Steepest Ascend only: Evaluate all possible solutions within the neighbourhood space and select the best one.
@@ -26,7 +31,10 @@ class HillClimbing(Algorithm):
                 cost = cost_candidate
                 best_candidate_solution = candidate.copy()
 
-        return best_candidate_solution, cost
+        # Modifying the original tour by ref
+        tour[:] = best_candidate_solution
+
+        return cost
 
     def run(self):
         """
@@ -40,15 +48,17 @@ class HillClimbing(Algorithm):
         plt.rcParams["figure.figsize"] = (10, 8)
         plt.tight_layout()
 
-        count, self.cycles = 0, 0
+        count = 0
         while count < self.stop:
             solution_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
 
-            # Evaluate solution depending on steepest ascend or simple hill climbing
-            if self.climb_type == 'steepest':
-                solution_candidate, cost_candidate = self.evaluate_neighbourhood_space(solution_candidate)
-            else:
-                cost_candidate = self.evaluate_solution(solution_candidate)
+            cost_candidate = self.evaluate[self.climb_type](solution_candidate)
+
+            # # Evaluate solution depending on steepest ascend or simple hill climbing
+            # if self.climb_type == 'steepest':
+            #     solution_candidate, cost_candidate = self.evaluate_neighbourhood_space(solution_candidate)
+            # else:
+            #     cost_candidate = self.evaluate_solution(solution_candidate)
 
             if cost_candidate < best_cost:
                 best_solution = solution_candidate.copy()

@@ -28,8 +28,8 @@ class Matrix:
 
         cities_coordinates = []
         try:
-            with open(path_file, 'r', encoding='utf-8') as f:
-                reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)
+            with open(path_file, 'r', encoding='utf-8') as in_file:
+                reader = csv.reader(in_file, quoting=csv.QUOTE_NONNUMERIC)
 
                 for row in reader:
                     cities_coordinates.append(row)
