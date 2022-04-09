@@ -10,6 +10,7 @@ For this reason, three approximate algorithms are presented in this repository t
 
 - [Problem description](#Problem-description)
 - [Instructions](#Instructions)
+- [Output](#Output)
 - [Algorithms](#Algorithms)
 - [Neighbourhood operators](#Neighbourhood-operators)
 
@@ -28,23 +29,67 @@ In order to achieve this, we need to take care of the following steps:
 5. **Stopping criteria**: No improvement after some iterations or conditions. Note that each algorithm has its own criteria for stopping.
 
 ## Instructions
+
+### Installation of dependencies
 ```bash
 pip install requirements.txt
+```
 
+**Note**: a version of **Python 3.8** or greater is needed in order to run this program.
+
+### Usage
+```bash
 cd src/
 
-python main.py
+python main.py <algorithm> [<args>]
 ```
-You can use any of the available [algorithms](#Algorithms) and modify their parameters to explore different behaviours. You can activate an animation to see how the algorithm progresses during the heuristic search process by setting: 
 
-```py
-run(animation=True)
+The algorithm argument is to be chosen from the available [algorithms](#Algorithms). You can also run:
+```bash
+python main.py -h
 ```
+
+From each algorithm, you can modify their own parameters to explore different behaviours. To see their parameters, just run the help command. 
+
+For example:
+```bash
+python main.py ts -h
+```
+
+The command above displays the optional arguments to input that are specific to the Tabu Search algorithm (ts).
+If these optional arguments are not given, then the default arguments (displayed in the help menu) are taken.
+
+**Note**: the optional command `--file` is empty by default. This means that a search space of cities will be randomly generated.
+One can also specify a search space in `csv` format only, which needs to be stored under the [data](./data) folder. 
+
+Also note that in [data](./data) there is already a file (TSP_50_nodes.csv) that can be used.
+
+### Examples 
+Running Simulated Annealing with the default arguments (search space randomly generated):
+```bash
+python main.py sa
+```
+
+Running Hill Climbing with some optional arguments (search space randomly generated):
+```bash
+python main.py hc --operator two_opt --climb_type ascent
+```
+
+Running Genetic Algorithm with some optional arguments (search space from a csv file):
+```bash
+python main.py ga --operator rand_swap_adj --elitism 0.5 crossover_rate 0.8 --file TSP_50_nodes.csv
+```
+
+## Output
+You will see two plots. The first one is an animation of the selected algorithm progressing during the heuristic process:
+
+
 |                   TSP search space                    |            TSP solution animation             |
 |:-----------------------------------------------------:|:---------------------------------------------:|
 |   <img src="img/random-search-space.png" width="700">    | <img src="img/TSP-animation.gif" width="750"> |
 
-**Note**: a version of **Python 3.8** or greater is needed in order to run this program. 
+The second one, is the history of the learning process of the algorithm over time. 
+
 
 ## Algorithms
 Algorithms for this problem:
