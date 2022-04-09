@@ -12,7 +12,7 @@ class HillClimbing(Algorithm):
         self.evaluate = {
             'steepest': self.evaluate_neighbourhood_space,
             'simple': self.evaluate_solution
-        }c
+        }
 
     def evaluate_neighbourhood_space(self, tour):
         """
