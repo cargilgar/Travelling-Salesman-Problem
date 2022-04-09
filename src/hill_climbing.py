@@ -11,8 +11,8 @@ class HillClimbing(Algorithm):
 
         self.evaluate = {
             'steepest': self.evaluate_neighbourhood_space,
-            'ascent': self.evaluate_solution
-        }
+            'simple': self.evaluate_solution
+        }c
 
     def evaluate_neighbourhood_space(self, tour):
         """
@@ -53,12 +53,6 @@ class HillClimbing(Algorithm):
             solution_candidate = self.n_op.generate_candidate_solution(best_solution.copy())
 
             cost_candidate = self.evaluate[self.climb_type](solution_candidate)
-
-            # # Evaluate solution depending on steepest ascend or simple hill climbing
-            # if self.climb_type == 'steepest':
-            #     solution_candidate, cost_candidate = self.evaluate_neighbourhood_space(solution_candidate)
-            # else:
-            #     cost_candidate = self.evaluate_solution(solution_candidate)
 
             if cost_candidate < best_cost:
                 best_solution = solution_candidate.copy()
