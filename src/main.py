@@ -1,18 +1,25 @@
 import sys
 import argparse
 import inspect
-from itertools import cycle
 
 from genetic_algorithm import GeneticAlgorithm
 from simulated_annealing import SimulatedAnnealing
 from tabu_search import TabuSearch
 from hill_climbing import HillClimbing
 
+algorithms = {
+    'sa': SimulatedAnnealing,
+    'ts': TabuSearch,
+    'ga': GeneticAlgorithm,
+    'hc': HillClimbing
+}
+
 
 class ArgumentParser:
     """
     Argument parser for the commands input to solve the TSP
     """
+
     def __init__(self):
         parser = argparse.ArgumentParser(
             description='Solve the Travelling Salesman Problem (TSP)',
@@ -21,58 +28,46 @@ class ArgumentParser:
             algorithm      Algorithm to choose from the already available.
             ''')
 
-        parser.add_argument('algorithm', help='Choose algorithm. Refer to docs for more information')
+        parser.add_argument('algorithm', action='store_true', help='Choose algorithm to solve TSP. '
+                                                                   'Refer to docs for more information')
 
-        args = parser.parse_args(sys.argv[1:2])
+        subparsers = parser.add_subparsers(description='Sub description', dest='algo_select')
 
-        getattr(self, args.algorithm)()
+        # Creating a subparser por each algorithm, adding the arguments from the corresponding constructor
+        for key, value in algorithms.items():
+            subparser = subparsers.add_parser(key, help=value.__doc__)
+            self.get_algorithm_args(subparser, value)
 
-    @classmethod
-    def run_tsp_solver(cls, algorithm, args):
+        # Getting the attributes for the main parser and the subparser selected.
+        args = parser.parse_args()
+        args_dict = vars(args)
+
+        # Extracting the first two elements of args_dict to get the constructor_args
+        constructor_args = dict(list(args_dict.items())[2:])
+
+        self.run_tsp_solver(algorithms.get(args.algo_select), constructor_args)
+
+    @staticmethod
+    def run_tsp_solver(algorithm, args):
+        """
+        Run the algorithm given the type of algorithm and its constructor arguments
+        """
         tsp_solver = algorithm(**args)
         tsp_solver.run()
 
-    @classmethod
-    def get_algorithm_args(cls, algo_select):
-        parser = argparse.ArgumentParser(description=algo_select.__doc__)
-
+    @staticmethod
+    def get_algorithm_args(parser, algo_select):
+        """
+        Get constructor arguments from the selected algorithm.
+        """
         constructor_args_dict = dict(zip(inspect.getfullargspec(algo_select.__init__).args[1:],
                                          inspect.getfullargspec(algo_select.__init__).defaults))
 
         for arg, default in constructor_args_dict.items():
-            parser.add_argument('--' + arg, action='store_true', help=str(default))
-
-        known_args, unknown_args = parser.parse_known_args(sys.argv[2:])
-
-        known_args_dict = vars(known_args)
-        input_args = cycle(unknown_args)
-        constructor_args = {}
-
-        for key, value in known_args_dict.items():
-            res = next(input_args) if value else constructor_args_dict[key]
-
-            try:
-                constructor_args[key] = int(res)
-            except ValueError:
-                constructor_args[key] = res
-
-        cls.run_tsp_solver(algo_select, constructor_args)
-
-    @classmethod
-    def sa(cls):
-        cls.get_algorithm_args(SimulatedAnnealing)
-
-    @classmethod
-    def ts(cls):
-        cls.get_algorithm_args(TabuSearch)
-
-    @classmethod
-    def ga(cls):
-        cls.get_algorithm_args(GeneticAlgorithm)
-
-    @classmethod
-    def hc(cls):
-        cls.get_algorithm_args(HillClimbing)
+            if isinstance(default, int):
+                parser.add_argument('--' + arg, action='store', help=str(default), type=int, default=default)
+            else:
+                parser.add_argument('--' + arg, action='store', help=str(default), default=default)
 
 
 if __name__ == "__main__":
