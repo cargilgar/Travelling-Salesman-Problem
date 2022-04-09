@@ -90,7 +90,7 @@ python main.py ga --operator rand_swap_adj --elitism 0.5 crossover_rate 0.8 --fi
 ```
 
 ## Output
-You will see two plots. The first one is an animation of the selected algorithm progressing during the heuristic process:
+You will see two plots. The first one is an animation of the selected algorithm (TS in this case) during the heuristic process:
 
 
 |                   TSP search space                    |            TSP solution animation             |
