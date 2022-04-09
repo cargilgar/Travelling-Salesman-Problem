@@ -72,23 +72,27 @@ class Matrix:
 
         :returns: distance between two points
         """
-        x1 = coord_list[node_1][0]
-        y1 = coord_list[node_1][1]
-        x2 = coord_list[node_2][0]
-        y2 = coord_list[node_2][1]
+        x_node_1 = coord_list[node_1][0]
+        y_node_1 = coord_list[node_1][1]
+        x_node_2 = coord_list[node_2][0]
+        y_node_2 = coord_list[node_2][1]
 
-        dist = math.sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2))
+        dist = math.sqrt(pow((x_node_1 - x_node_2), 2) + pow((y_node_1 - y_node_2), 2))
 
         return dist
 
     @staticmethod
     def generate_random_search_space(nodes=25):
+        """
+        Generate a randomly generated search space given the number of nodes.
+        :returns: list of coordinates of each node (city)
+        """
         np.random.seed(42)
 
         coord = []
         for _ in range(nodes):
-            x = np.random.uniform(0, 100)
-            y = np.random.uniform(0, 100)
-            coord.append([x, y])
+            x_node = np.random.uniform(0, 100)
+            y_node = np.random.uniform(0, 100)
+            coord.append([x_node, y_node])
 
         return coord

@@ -5,7 +5,7 @@ from algorithm import Algorithm
 
 class HillClimbing(Algorithm):
     """Hill Climbing Algorithm"""
-    def __init__(self, file='', stop=20, operator="two_opt", climb_type='steepest'):
+    def __init__(self, file='', stop=20, operator="inversion", climb_type='steepest'):
         super().__init__(file, stop, operator)
         self.climb_type = climb_type
 

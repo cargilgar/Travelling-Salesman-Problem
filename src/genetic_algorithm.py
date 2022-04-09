@@ -9,7 +9,7 @@ from algorithm import Algorithm
 
 class GeneticAlgorithm(Algorithm):
     """Genetic Algorithm"""
-    def __init__(self, file='', stop=50, operator="rand_swap_adj", elitism=0.8, mutation_rate=1,
+    def __init__(self, file='', stop=50, operator="inversion", elitism=0.8, mutation_rate=1,
                  crossover_rate=1, population_rate=20):
         super().__init__(file, stop, operator)
         self.elitism_rate = elitism

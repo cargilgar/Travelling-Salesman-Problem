@@ -5,7 +5,7 @@ from algorithm import Algorithm
 
 class TabuSearch(Algorithm):
     """Tabu Search Algorithm"""
-    def __init__(self, file='', stop=100, operator="rand_swap_adj", tabu_size=20):
+    def __init__(self, file='', stop=100, operator="inversion", tabu_size=20):
         super().__init__(file, stop, operator)
         self.tabu_tenure = tabu_size
         self.tabu_list = []
