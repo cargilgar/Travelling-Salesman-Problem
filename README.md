@@ -25,12 +25,13 @@ In order to achieve this, we need to take care of the following steps:
 1. **Algorithm selection**: To be chosen from here [Algorithms](#Algorithms).
 2. **Neighbourhood operator**: To be chosen from here [Neighbourhood operators](#Neighbourhood-operators).
 3. **Initial Solution**: this can be either random (by default) or greedy approach.
-4. **Solution evaluation**: for this problem, this is simply adding the cost of travelling through the cities.
+4. **Solution evaluation**: for th TSP, this is simply adding the cost of travelling through the cities.
 5. **Stopping criteria**: No improvement after some iterations or conditions. Note that each algorithm has its own criteria for stopping.
 
 ## Instructions
 
 ### Installation of dependencies
+
 ```bash
 pip install requirements.txt
 ```
@@ -38,6 +39,9 @@ pip install requirements.txt
 **Note**: a version of **Python 3.8** or greater is needed in order to run this program.
 
 ### Usage
+
+This application is mainly intended to be run from the command line, as shown below:
+
 ```bash
 cd src/
 
@@ -45,6 +49,7 @@ python main.py <algorithm> [<args>]
 ```
 
 The algorithm argument is to be chosen from the available [algorithms](#Algorithms). You can also run:
+
 ```bash
 python main.py -h
 ```
@@ -52,6 +57,7 @@ python main.py -h
 From each algorithm, you can modify their own parameters to explore different behaviours. To see their parameters, just run the help command. 
 
 For example:
+
 ```bash
 python main.py ts -h
 ```
@@ -62,20 +68,23 @@ If these optional arguments are not given, then the default arguments (displayed
 **Note**: the optional command `--file` is empty by default. This means that a search space of cities will be randomly generated.
 One can also specify a search space in `csv` format only, which needs to be stored under the [data](./data) folder. 
 
-Also note that in [data](./data) there is already a file (TSP_50_nodes.csv) that can be used.
+Also note that in [data](./data), there is already a file (TSP_50_nodes.csv) that can be used.
 
 ### Examples 
 Running Simulated Annealing with the default arguments (search space randomly generated):
+
 ```bash
 python main.py sa
 ```
 
 Running Hill Climbing with some optional arguments (search space randomly generated):
+
 ```bash
 python main.py hc --operator two_opt --climb_type ascent
 ```
 
 Running Genetic Algorithm with some optional arguments (search space from a csv file):
+
 ```bash
 python main.py ga --operator rand_swap_adj --elitism 0.5 crossover_rate 0.8 --file TSP_50_nodes.csv
 ```
