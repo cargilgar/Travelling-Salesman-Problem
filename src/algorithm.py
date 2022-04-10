@@ -12,7 +12,7 @@ class Algorithm:
     """
     __metaclass__ = ABCMeta
 
-    def __init__(self, file='', stop=50, n_op='inversion'):
+    def __init__(self, file, stop, n_op):
         self.matrix = matrix.Matrix(file)
         self.x_coord, self.y_coord = zip(*self.matrix.coord_list)
 
