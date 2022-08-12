@@ -38,7 +38,7 @@ class Algorithm:
         """
         init_solution = []
         if random_init:
-            init_solution = random.sample(range(0, self.nodes), self.nodes)
+            init_solution = random.sample(range(self.nodes), self.nodes)
         else:
             # TODO: greedy start
             pass
@@ -51,13 +51,9 @@ class Algorithm:
         """
         Calculate the cost of the given solution based on the matrix of distances
         """
-        cost = 0
-        for i in range(len(tour) - 1):
-            cost += self.matrix.matrix[tour[i]][tour[i + 1]]
+        cost = sum(self.matrix.matrix[tour[i]][tour[i + 1]] for i in range(len(tour) - 1))
 
-        # adding the cost from last city in the route to the starting city
         cost += self.matrix.matrix[tour[-1]][tour[0]]
-
         return cost
 
     def plot_path(self, tour, title='', subtitle=''):

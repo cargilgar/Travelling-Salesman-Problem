@@ -22,9 +22,7 @@ class Chromosome:
             self.cost = self.evaluate_solution(matrix)
 
     def evaluate_solution(self, matrix):
-        cost = 0
-        for i in range(len(self.tour) - 1):
-            cost += matrix[self.tour[i]][self.tour[i + 1]]
+        cost = sum(matrix[self.tour[i]][self.tour[i + 1]] for i in range(len(self.tour) - 1))
 
         # adding the cost from last city in the route to the starting city
         cost += matrix[self.tour[-1]][self.tour[0]]

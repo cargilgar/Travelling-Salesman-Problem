@@ -1,4 +1,5 @@
 import csv
+import itertools
 import math
 import numpy as np
 
@@ -31,12 +32,11 @@ class Matrix:
             with open(path_file, 'r', encoding='utf-8') as in_file:
                 reader = csv.reader(in_file, quoting=csv.QUOTE_NONNUMERIC)
 
-                for row in reader:
-                    cities_coordinates.append(row)
+                cities_coordinates.extend(iter(reader))
         except FileNotFoundError as err:
             raise err
 
-        assert len(cities_coordinates) > 0, "Error loading the csv file"
+        assert cities_coordinates, "Error loading the csv file"
 
         return cities_coordinates
 
@@ -52,16 +52,11 @@ class Matrix:
         """
         num_of_cities = len(self.coord_list)
         matrix = np.zeros(shape=(num_of_cities, num_of_cities))
-
-        for i in range(num_of_cities):
-            for j in range(num_of_cities):
-                if i == j:
-                    continue
-
-                dist = self.get_dist_two_nodes(self.coord_list, i, j)
-
-                matrix[i][j] = dist
-
+        for i, j in itertools.product(range(num_of_cities), range(num_of_cities)):
+            if i == j:
+                continue
+            dist = self.get_dist_two_nodes(self.coord_list, i, j)
+            matrix[i][j] = dist
         return matrix
 
     # functional method
@@ -77,9 +72,7 @@ class Matrix:
         x_node_2 = coord_list[node_2][0]
         y_node_2 = coord_list[node_2][1]
 
-        dist = math.sqrt(pow((x_node_1 - x_node_2), 2) + pow((y_node_1 - y_node_2), 2))
-
-        return dist
+        return math.sqrt(pow((x_node_1 - x_node_2), 2) + pow((y_node_1 - y_node_2), 2))
 
     @staticmethod
     def generate_random_search_space(nodes=25):

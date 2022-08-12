@@ -35,12 +35,9 @@ class GeneticAlgorithm(Algorithm):
         Since TSP is a minimisation problem, high fitness values are to be associated with short-length paths. This
         fitness function makes the conversion. It also sorts population by descending order of fitness scores.
         """
-        max_cost = max([i.cost for i in self.population])
-
+        max_cost = max(i.cost for i in self.population)
         for chromosome in self.population:
             chromosome.fitness = max_cost - chromosome.cost
-
-        # Population sorted in descending order. The elite chromosomes (better fitness scores) will be located first
         self.population.sort(key=lambda i: i.fitness, reverse=True)
 
     def remove_duplicates(self):
@@ -79,7 +76,7 @@ class GeneticAlgorithm(Algorithm):
         selection = self.population[:elite]
 
         # Step 1
-        total_fitness = sum([i.fitness for i in self.population])
+        total_fitness = sum(i.fitness for i in self.population)
 
         while len(selection) < self.population_size:
             # Step 2
@@ -99,7 +96,7 @@ class GeneticAlgorithm(Algorithm):
         a number of parents based on the crossover rate are selected and mated.
         """
         # Get a random number of chromosomes that are selected to be parents
-        occurrences = random.sample(range(0, self.population_size), int(self.population_size * self.crossover_rate))
+        occurrences = random.sample(range(self.population_size), int(self.population_size * self.crossover_rate))
 
         # Get elites of current population, their offspring are expected not to receive mutation.
         elites = self.population[:int(self.population_size * self.elitism_rate)]
@@ -147,7 +144,7 @@ class GeneticAlgorithm(Algorithm):
         Introducing diversity by introducing perturbations in a number of randomly selected offspring (determined by the
         mutation rate). Insert the resulting offspring in the new population.
         """
-        occurrences = random.sample(range(0, self.population_size), int(self.population_size * self.mutation_rate))
+        occurrences = random.sample(range(self.population_size), int(self.population_size * self.mutation_rate))
 
         for occurrence in occurrences:
             chromosome = self.population[occurrence]

@@ -7,16 +7,9 @@ def get_operator_by_name(op_name):
                 'rand_swap_adj': RandomSwapAdjacent(),
                 'inversion': Inversion(),
                 'two_opt': TwoOpt(),
-                'three_opt': ThreeOpt()
-                }
+                'three_opt': ThreeOpt()}
 
-    result = ops_dict.get(op_name)
-
-    # If input given does not correspond to any op available, then take the first one
-    if not result:
-        result = ops_dict.get('rand_swap')
-
-    return result
+    return ops_dict.get(op_name) or ops_dict.get('rand_swap')
 
 
 class Operator:
@@ -26,7 +19,7 @@ class Operator:
     __metaclass__ = ABCMeta
 
     @abstractmethod
-    def generate_candidate_solution(self, path: list) -> list:
+    def generate_candidate_solution(self, path: list) -> None:
         """
         Given a list, generate a candidate solution based on the operator type.
         """

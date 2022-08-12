@@ -60,14 +60,14 @@ class ArgumentParser:
         """
         Get constructor arguments from the selected algorithm.
         """
-        constructor_args_dict = dict(zip(inspect.getfullargspec(algo_select.__init__).args[1:],
-                                         inspect.getfullargspec(algo_select.__init__).defaults))
+        constructor_args_dict = dict(zip(inspect.getfullargspec(algo_select.__init__).args[1:], inspect.getfullargspec(algo_select.__init__).defaults))
 
         for arg, default in constructor_args_dict.items():
             if isinstance(default, int):
-                parser.add_argument('--' + arg, action='store', help=str(default), type=int, default=default)
+                parser.add_argument(f'--{arg}', action='store', help=str(default), type=int, default=default)
+
             else:
-                parser.add_argument('--' + arg, action='store', help=str(default), default=default)
+                parser.add_argument(f'--{arg}', action='store', help=str(default), default=default)
 
 
 if __name__ == "__main__":
