@@ -33,10 +33,10 @@ class Chromosome:
         """
         Encode current tour of nodes to ordinal representation
         """
-        canonical_tour = list(range(0, len(self.tour)))
+        canonical_tour = list(range(len(self.tour)))
         count = 0
         res = []
-        while len(canonical_tour) > 0:
+        while canonical_tour:
             val = self.tour[count]
             idx = canonical_tour.index(val)
             res.append(idx)
@@ -49,10 +49,10 @@ class Chromosome:
         """
         Decode ordinal representation to the tour of nodes
         """
-        canonical_tour = list(range(0, len(self.ordinal)))
+        canonical_tour = list(range(len(self.ordinal)))
         count = 0
         res = []
-        while len(canonical_tour) > 0:
+        while canonical_tour:
             idx = self.ordinal[count]
             val = canonical_tour[idx]
             res.append(val)

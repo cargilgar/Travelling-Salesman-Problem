@@ -110,7 +110,7 @@ class GeneticAlgorithm(Algorithm):
 
         offspring = []
 
-        while len(offspring) < parents_size and len(parents) > 0:
+        while len(offspring) < parents_size and parents:
             # Select two parents randomly for mating
             parent_1 = parents.pop(random.randint(0, len(parents) - 1))
             parent_2 = parents.pop(random.randint(0, len(parents) - 1))
@@ -129,8 +129,7 @@ class GeneticAlgorithm(Algorithm):
                 child_1.elite_parents = True
                 child_2.elite_parents = True
 
-            offspring.append(child_1)
-            offspring.append(child_2)
+            offspring.extend((child_1, child_2))
 
         # Add new offspring to the population alongside the chromosomes not selected for reproduction (older generation)
         for chromosome in offspring:
